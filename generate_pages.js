@@ -184,11 +184,29 @@ function formatDate(dateStr) {
     return date.toLocaleDateString('de-DE', options);
 }
 
-// Function to create blog-specific template
-function createBlogPage(filename, post, allPosts) {
+// Blog-Seiten liegen unter /blog/ – relative Pfade aus dem Template (style.css, app.js,
+// impressum.html, datenschutz.html, images/...) würden dort ins Leere (404) laufen.
+function fixBlogPaths(page) {
+    return page
+        .replace(/href="style\.css/g, 'href="/style.css')
+        .replace(/src="app\.js"/g, 'src="/app.js"')
+        .replace(/href="(impressum|datenschutz|buchen)\.html"/g, 'href="/$1.html"')
+        .replace(/(src|srcset)="images\//g, '$1="/images/');
+}
+
+// Meta-Tags ersetzen – tolerant gegenüber "…">" und "…" />"
+function setMeta(page, attr, name, value) {
+    const re = new RegExp(`<meta ${attr}="${name}"[^>]*?\\/?>`);
+    const tag = `<meta ${attr}="${name}" content="${value}" />`;
+    return re.test(page) ? page.replace(re, tag) : page.replace('</head>', `  ${tag}\n</head>`);
+}
+
+function stripHtml(str) {
+    return str.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function blogBaseTemplate() {
     let page = indexHtml.replace(/href="#/g, 'href="/#');
-    
-    // Remove main sections
     page = page.replace(/<!-- Hero -->[\s\S]*?<\/section>/, '');
     page = page.replace(/<!-- Booking -->[\s\S]*?<\/section>/, '');
     page = page.replace(/<!-- USPs -->[\s\S]*?<\/section>/, '');
@@ -197,28 +215,47 @@ function createBlogPage(filename, post, allPosts) {
     page = page.replace(/<!-- Sonderaktion Klinik -->[\s\S]*?<\/section>/, '');
     page = page.replace(/<!-- Lage -->[\s\S]*?<\/section>/, '');
     page = page.replace(/<!-- Kontakt -->[\s\S]*?<\/section>/, '');
+    return fixBlogPaths(page);
+}
+
+// Function to create blog-specific template
+// Optionale Felder je Post in content/blog-posts.json:
+//   seoTitle        – <title>/og:title (sonst "<title> | Hotel Goldener Falke Augsburg")
+//   metaDescription – Meta-Description (sonst excerpt)
+//   dateModified    – Aktualisierungsdatum (Schema + Anzeige)
+//   faq             – [{ "q": "...", "a": "... (HTML erlaubt)" }] → FAQ-Block + FAQPage-Schema
+//   related         – [slug, slug] für "Weitere Artikel"
+//   static          – true: Seite ist handgepflegt, wird NICHT generiert, erscheint aber im Blog-Index
+function createBlogPage(filename, post, allPosts) {
+    let page = blogBaseTemplate();
+    const url = `https://www.goldener-falke.de/blog/${post.slug}.html`;
+    const seoTitle = post.seoTitle || `${post.title} | Hotel Goldener Falke Augsburg`;
+    const description = post.metaDescription || post.excerpt;
 
     // Update meta tags
-    page = page.replace(/<title>[\s\S]*?<\/title>/, `<title>${post.title} | Hotel Goldener Falke Augsburg</title>`);
-    page = page.replace(/<meta property="og:title" content=".*?">/, `<meta property="og:title" content="${post.title}">`);
-    page = page.replace(/<meta name="twitter:title" content=".*?">/, `<meta name="twitter:title" content="${post.title}">`);
-    page = page.replace(/<meta name="description"[\s\S]*?\/>/, `<meta name="description" content="${post.excerpt}" />`);
-    page = page.replace(/<meta property="og:description"[\s\S]*?>/, `<meta property="og:description" content="${post.excerpt}">`);
-    page = page.replace(/<meta name="twitter:description"[\s\S]*?>/, `<meta name="twitter:description" content="${post.excerpt}">`);
-    page = page.replace(/<meta property="og:url" content=".*?">/, `<meta property="og:url" content="https://www.goldener-falke.de/blog/${post.slug}.html">`);
-    page = page.replace(/<link rel="canonical" href=".*?"(.*?)>/, `<link rel="canonical" href="https://www.goldener-falke.de/blog/${post.slug}.html"$1>`);
-    page = page.replace(/<meta property="og:image"[\s\S]*?\/>/, `<meta property="og:image" content="${post.image}" />`);
-    page = page.replace(/<meta name="twitter:image"[\s\S]*?\/>/, `<meta name="twitter:image" content="${post.image}" />`);
-    page = page.replace(/<meta name="keywords"[\s\S]*?\/>/, `<meta name="keywords" content="${post.keywords}" />`);
+    page = page.replace(/<title>[\s\S]*?<\/title>/, `<title>${seoTitle}</title>`);
+    page = setMeta(page, 'property', 'og:title', seoTitle);
+    page = setMeta(page, 'name', 'twitter:title', seoTitle);
+    page = setMeta(page, 'name', 'description', description);
+    page = setMeta(page, 'property', 'og:description', description);
+    page = setMeta(page, 'name', 'twitter:description', description);
+    page = setMeta(page, 'property', 'og:url', url);
+    page = setMeta(page, 'property', 'og:type', 'article');
+    page = setMeta(page, 'property', 'og:image', post.image);
+    page = setMeta(page, 'name', 'twitter:image', post.image);
+    page = setMeta(page, 'name', 'keywords', post.keywords);
+    page = page.replace(/<link rel="canonical" href=".*?"(.*?)>/, `<link rel="canonical" href="${url}"$1>`);
 
     // Create BlogPosting schema
     const blogSchema = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": post.title,
-        "description": post.excerpt,
+        "description": description,
         "image": post.image,
         "datePublished": post.date,
+        "dateModified": post.dateModified || post.date,
+        "inLanguage": "de-DE",
         "author": {
             "@type": "Organization",
             "name": post.author,
@@ -234,16 +271,48 @@ function createBlogPage(filename, post, allPosts) {
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://www.goldener-falke.de/blog/${post.slug}.html`
+            "@id": url
         }
     };
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://www.goldener-falke.de/" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.goldener-falke.de/blog/" },
+            { "@type": "ListItem", "position": 3, "name": post.title, "item": url }
+        ]
+    };
+    const schemas = [blogSchema, breadcrumbSchema];
+    if (post.faq && post.faq.length) {
+        schemas.push({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": post.faq.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": { "@type": "Answer", "text": stripHtml(f.a) }
+            }))
+        });
+    }
 
     // Add schema before closing head
-    const schemaTag = `<script type="application/ld+json">\n${JSON.stringify(blogSchema, null, 2)}\n</script>`;
-    page = page.replace('</head>', `${schemaTag}\n</head>`);
+    const schemaTags = schemas.map(sc => `<script type="application/ld+json">\n${JSON.stringify(sc, null, 2)}\n</script>`).join('\n');
+    page = page.replace('</head>', `${schemaTags}\n</head>`);
+
+    // FAQ-Block (sichtbar, identisch zum FAQPage-Schema)
+    const faqHtml = (post.faq && post.faq.length) ? `
+                <h2 id="faq">Häufige Fragen</h2>
+                <div class="faq-list" style="margin-top: 20px;">
+${post.faq.map(f => `                    <details style="margin-bottom: 15px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid var(--clr-gray); cursor: pointer;">
+                        <summary style="font-weight: 700; font-size: 1.05rem; color: var(--clr-brand); outline: none;">${f.q}</summary>
+                        <p style="margin-top: 15px; line-height: 1.6;">${f.a}</p>
+                    </details>`).join('\n')}
+                </div>` : '';
 
     // Create blog post HTML
-    const relatedPosts = allPosts.filter(p => p.slug !== post.slug).slice(0, 2);
+    let relatedPosts = (post.related || []).map(slug => allPosts.find(p => p.slug === slug)).filter(Boolean);
+    if (!relatedPosts.length) relatedPosts = allPosts.filter(p => p.slug !== post.slug).slice(0, 2);
     const relatedPostsHtml = relatedPosts.map(p => `
         <div class="blog-card">
             <h4><a href="/blog/${p.slug}.html">${p.title}</a></h4>
@@ -253,14 +322,22 @@ function createBlogPage(filename, post, allPosts) {
         </div>
     `).join('');
 
+    const modifiedHtml = post.dateModified && post.dateModified !== post.date
+        ? `
+                    <span style="margin: 0 15px;">•</span>
+                    <span>Aktualisiert am ${formatDate(post.dateModified)}</span>` : '';
+
     const blogContent = `
 <section style="padding: 60px 0;">
     <div class="container">
+        <nav aria-label="Brotkrumen" style="font-size: 0.9rem; color: var(--clr-text-light); margin-bottom: 20px;">
+            <a href="/">Startseite</a> › <a href="/blog/">Blog</a> › <span>${post.title}</span>
+        </nav>
         <article class="blog-post">
             <header class="blog-header" style="margin-bottom: 40px;">
                 <h1>${post.title}</h1>
                 <div class="blog-meta" style="color: var(--clr-text-light); margin-top: 15px; font-size: 0.95rem;">
-                    <span>${formatDate(post.date)}</span>
+                    <span>${formatDate(post.date)}</span>${modifiedHtml}
                     <span style="margin: 0 15px;">•</span>
                     <span class="blog-category" style="display: inline-block; padding: 5px 12px; background: var(--clr-gold-glow); color: var(--clr-dark); border-radius: 4px; font-weight: 600;">${post.category}</span>
                     <span style="margin: 0 15px;">•</span>
@@ -270,6 +347,7 @@ function createBlogPage(filename, post, allPosts) {
 
             <div class="blog-content" style="line-height: 1.8; font-size: 1.05rem; color: var(--clr-text);">
                 ${post.content}
+${faqHtml}
             </div>
 
             <div class="blog-footer" style="margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--clr-gold); display: flex; justify-content: space-between; align-items: center;">
@@ -303,34 +381,26 @@ function createBlogPage(filename, post, allPosts) {
     fs.writeFileSync(filename, page);
 }
 
-// Generate individual blog post pages
-blogPosts.forEach(post => {
+// Generate individual blog post pages (static: true = handgepflegte Seite, nur im Index listen)
+blogPosts.filter(post => !post.static).forEach(post => {
     createBlogPage(`blog/${post.slug}.html`, post, blogPosts);
     console.log(`Created blog/${post.slug}.html`);
 });
 
 // Create blog index page
 function createBlogIndex() {
-    let page = indexHtml.replace(/href="#/g, 'href="/#');
-    
-    // Remove main sections
-    page = page.replace(/<!-- Hero -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- Booking -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- USPs -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- Über Uns -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- Zimmer -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- Sonderaktion Klinik -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- Lage -->[\s\S]*?<\/section>/, '');
-    page = page.replace(/<!-- Kontakt -->[\s\S]*?<\/section>/, '');
+    let page = blogBaseTemplate();
+    const idxTitle = 'Blog | Hotel Goldener Falke Augsburg – Reisetipps, Gastro & Geschichte';
+    const idxDesc = 'Blog des Hotel Goldener Falke: Augsburger Sehenswürdigkeiten, Spezialitäten, Anreise- und Übernachtungstipps – seit 1923 in Augsburg-Oberhausen.';
 
     // Update meta tags
-    page = page.replace(/<title>[\s\S]*?<\/title>/, '<title>Blog | Hotel Goldener Falke Augsburg – Gastro & Geschichte</title>');
-    page = page.replace(/<meta property="og:title" content=".*?">/, '<meta property="og:title" content="Blog | Hotel Goldener Falke Augsburg">');
-    page = page.replace(/<meta name="twitter:title" content=".*?">/, '<meta name="twitter:title" content="Blog | Hotel Goldener Falke Augsburg">');
-    page = page.replace(/<meta name="description"[\s\S]*?\/>/, '<meta name="description" content="Blog des Hotel Goldener Falke über Augsburger Gastrokultur, Geschichte und Reisekultur seit 1923." />');
-    page = page.replace(/<meta property="og:description"[\s\S]*?>/, '<meta property="og:description" content="Blog des Hotel Goldener Falke über Augsburger Gastrokultur, Geschichte und Reisekultur seit 1923.">');
-    page = page.replace(/<meta name="twitter:description"[\s\S]*?>/, '<meta name="twitter:description" content="Blog des Hotel Goldener Falke über Augsburger Gastrokultur, Geschichte und Reisekultur seit 1923.">');
-    page = page.replace(/<meta property="og:url" content=".*?">/, '<meta property="og:url" content="https://www.goldener-falke.de/blog/">');
+    page = page.replace(/<title>[\s\S]*?<\/title>/, `<title>${idxTitle}</title>`);
+    page = setMeta(page, 'property', 'og:title', idxTitle);
+    page = setMeta(page, 'name', 'twitter:title', idxTitle);
+    page = setMeta(page, 'name', 'description', idxDesc);
+    page = setMeta(page, 'property', 'og:description', idxDesc);
+    page = setMeta(page, 'name', 'twitter:description', idxDesc);
+    page = setMeta(page, 'property', 'og:url', 'https://www.goldener-falke.de/blog/');
     page = page.replace(/<link rel="canonical" href=".*?"(.*?)>/, '<link rel="canonical" href="https://www.goldener-falke.de/blog/"$1>');
 
     // Create blog listing
@@ -359,8 +429,8 @@ function createBlogIndex() {
 <section style="padding: 60px 0;">
     <div class="container">
         <header style="text-align: center; margin-bottom: 50px;">
-            <h1 style="margin-bottom: 15px;">Blog – Gastro & Geschichte</h1>
-            <p style="font-size: 1.1rem; color: var(--clr-text-light); max-width: 600px; margin: 0 auto;">Geschichten aus Augsburg, Kulinarisches und die 100+ Jahre Geschichte unseres Hotels.</p>
+            <h1 style="margin-bottom: 15px;">Blog – Augsburg entdecken</h1>
+            <p style="font-size: 1.1rem; color: var(--clr-text-light); max-width: 600px; margin: 0 auto;">Sehenswürdigkeiten, Kulinarisches, Anreise- und Übernachtungstipps – und die über 100 Jahre Geschichte unseres Hotels.</p>
         </header>
 
         <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid var(--clr-warm-dark);">
