@@ -11,7 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     bookingLinks.forEach((btn) => {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
-            document.getElementById("bookingModal").classList.add("active");
+            const modal = document.getElementById("bookingModal");
+            // Buchungsmaske (IBE, ~11 MB) erst beim Öffnen laden
+            const ibe = modal.querySelector("iframe[data-src]");
+            if (ibe && !ibe.getAttribute("src")) ibe.setAttribute("src", ibe.dataset.src);
+            modal.classList.add("active");
             document.body.style.overflow = "hidden";
 
             // If the mobile nav is open, close it
