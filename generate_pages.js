@@ -77,26 +77,102 @@ function faqSchema(faq) {
     };
 }
 
+// ========== BILDER ==========
+// Vorhandene Hotelfotos (unter /images/, je .webp + -400/-800.webp + JPG-Fallback).
+// w/h = Maße des Fallback-Bildes; webp = [Datei, Breite] für das srcset.
+const IMAGES = {
+    zimmer: { fallback: 'published_image_2.jpg', w: 992, h: 745,
+        webp: [['published_image_2-400.webp', 400], ['published_image_2-800.webp', 800], ['published_image_2.webp', 992]] },
+    einzelEco: { fallback: 'Hotel_Augsburg_Einzelzimmer_Goldener_Falke.JPG', w: 1600, h: 1159,
+        webp: [['Hotel_Augsburg_Einzelzimmer_Goldener_Falke-400.webp', 400], ['Hotel_Augsburg_Einzelzimmer_Goldener_Falke-800.webp', 800], ['Hotel_Augsburg_Einzelzimmer_Goldener_Falke.webp', 2420]] },
+    einzelEcoFenster: { fallback: 'hotel-augsburg-einzelzimmer-eco.jpg', w: 1600, h: 1200,
+        webp: [['hotel-augsburg-einzelzimmer-eco-400.webp', 400], ['hotel-augsburg-einzelzimmer-eco-800.webp', 800], ['hotel-augsburg-einzelzimmer-eco.webp', 1600]] },
+    einzelStandard: { fallback: 'hotel-augsburg-einzelzimmer-standard.jpg', w: 1624, h: 1042,
+        webp: [['hotel-augsburg-einzelzimmer-standard-400.webp', 400], ['hotel-augsburg-einzelzimmer-standard-800.webp', 800], ['hotel-augsburg-einzelzimmer-standard.webp', 1624]] },
+    doppel: { fallback: 'hotel-augsburg-doppelzimmer-standard.jpg', w: 1200, h: 1600,
+        webp: [['hotel-augsburg-doppelzimmer-standard-400.webp', 400], ['hotel-augsburg-doppelzimmer-standard-800.webp', 800], ['hotel-augsburg-doppelzimmer-standard.webp', 1200]] },
+    buffet: { fallback: 'hotel-augsburg-fruehstuecksbuffet.jpg', w: 640, h: 480,
+        webp: [['hotel-augsburg-fruehstuecksbuffet-400.webp', 400], ['hotel-augsburg-fruehstuecksbuffet.webp', 640]] },
+    fruehstuecksraum: { fallback: 'hotel-augsburg-fruehstuecksbuffet-auswahl.jpg', w: 480, h: 640,
+        webp: [['hotel-augsburg-fruehstuecksbuffet-auswahl-400.webp', 400], ['hotel-augsburg-fruehstuecksbuffet-auswahl.webp', 480]] },
+    fassade: { fallback: 'Hotel_Augsburg_Goldener_Falke_Titelbild.jpg', w: 334, h: 300,
+        webp: [['Hotel_Augsburg_Goldener_Falke_Titelbild-400.webp', 400], ['Hotel_Augsburg_Goldener_Falke_Titelbild-800.webp', 800]] }
+};
+
+function imageUrl(key) {
+    return `https://www.goldener-falke.de/images/${IMAGES[key].fallback}`;
+}
+
+function imageObject(key, caption) {
+    const im = IMAGES[key];
+    const obj = { "@type": "ImageObject", "url": imageUrl(key), "contentUrl": imageUrl(key), "width": im.w, "height": im.h };
+    if (caption) obj.caption = caption;
+    return obj;
+}
+
+// <picture> mit WebP-srcset + JPG-Fallback. priority=true nur für das erste sichtbare Bild.
+function pic(key, alt, opts = {}) {
+    const im = IMAGES[key];
+    const sizes = opts.sizes || '(max-width: 768px) 100vw, 50vw';
+    const style = opts.style || 'width: 100%; height: auto; border-radius: 12px; display: block;';
+    const loading = opts.priority ? 'fetchpriority="high"' : 'loading="lazy"';
+    const srcset = im.webp.map(([f, w]) => `/images/${f} ${w}w`).join(', ');
+    return `<picture>
+                <source type="image/webp" srcset="${srcset}" sizes="${sizes}" />
+                <img src="/images/${im.fallback}" alt="${alt}" width="${im.w}" height="${im.h}" ${loading} decoding="async" style="${style}" />
+            </picture>`;
+}
+
+function figure(key, alt, caption, opts = {}) {
+    return `<figure style="margin: 0 0 30px 0;">
+            ${pic(key, alt, opts)}
+            ${caption ? `<figcaption style="font-size: 0.9rem; color: var(--clr-text-light); margin-top: 8px; text-align: center;">${caption}</figcaption>` : ''}
+        </figure>`;
+}
+
+const CARD_IMG = 'width: 100%; height: 220px; object-fit: cover; border-radius: 10px; display: block; margin-bottom: 15px;';
+
 // 1. Zimmer & Preise
 const zimmerHtml = `<section>
     <div class="container">
-        <h1 style="text-align: center; margin-bottom: 30px;">Zimmer & Preise</h1>
+        <h1 style="text-align: center; margin-bottom: 15px;">Zimmer & Preise</h1>
+        <p style="text-align: center; font-size: 1.1rem; max-width: 760px; margin: 0 auto 40px;">Unsere Zimmer im Hotel Goldener Falke in Augsburg-Oberhausen – alle mit Dusche/WC, TV und kostenlosem WLAN. Dazu: kostenloser Parkplatz, Frühstücksbuffet und 24h-Check-in-Terminal nach Voranmeldung.</p>
         <div class="grid-3">
             <div class="feature-card">
+                ${pic('einzelEco', 'Einzelzimmer Eco mit Schreibtisch im Hotel Goldener Falke in Augsburg-Oberhausen', { priority: true, sizes: '(max-width: 768px) 100vw, 33vw', style: CARD_IMG })}
                 <h3>Einzelzimmer Eco</h3>
                 <p class="price">ab 59 EUR/Nacht</p>
                 <p>Gemütliches Einzelzimmer mit Dusche/WC, TV, Erfrischungsgetränk und kostenlosem WLAN</p>
             </div>
             <div class="feature-card">
+                ${pic('einzelStandard', 'Einzelzimmer Standard mit Leselicht und TV im Hotel Goldener Falke Augsburg', { sizes: '(max-width: 768px) 100vw, 33vw', style: CARD_IMG })}
                 <h3>Einzelzimmer Standard</h3>
                 <p class="price">ab 69 EUR/Nacht</p>
                 <p>Komfortables Einzelzimmer mit Dusche/WC, TV, Safe, Kühlschrank, Erfrischungsgetränk und WLAN</p>
             </div>
             <div class="feature-card">
+                ${pic('doppel', 'Doppelzimmer Standard mit Doppelbett im Hotel Goldener Falke in Augsburg', { sizes: '(max-width: 768px) 100vw, 33vw', style: CARD_IMG })}
                 <h3>Doppelzimmer Standard</h3>
                 <p class="price">ab 89 EUR/Nacht</p>
                 <p>Geräumiges Doppelzimmer mit Dusche/WC, TV, Safe, Kühlschrank, Erfrischungsgetränk und WLAN</p>
             </div>
+        </div>
+
+        <h2 style="text-align: center; margin: 60px 0 15px;">Frühstück im Goldenen Falken</h2>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto 30px;">Starten Sie gestärkt in den Tag – mit unserem vielfältigen Frühstücksbuffet, jeden Morgen frisch zubereitet.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            ${pic('buffet', 'Frühstücksbuffet mit frischen Speisen im Hotel Goldener Falke Augsburg-Oberhausen', { sizes: '(max-width: 768px) 100vw, 50vw', style: 'width: 100%; height: 320px; object-fit: cover; border-radius: 12px; display: block;' })}
+            ${pic('fruehstuecksraum', 'Frühstücksraum mit Buffet im Hotel Goldener Falke in Augsburg', { sizes: '(max-width: 768px) 100vw, 50vw', style: 'width: 100%; height: 320px; object-fit: cover; border-radius: 12px; display: block;' })}
+        </div>
+
+        <h2 style="text-align: center; margin: 60px 0 30px;">Impressionen aus unseren Zimmern</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            ${pic('zimmer', 'Hotelzimmer mit großem Bett und warmem Licht im Hotel Goldener Falke Augsburg', { sizes: '(max-width: 768px) 100vw, 50vw', style: 'width: 100%; height: 280px; object-fit: cover; border-radius: 12px; display: block;' })}
+            ${pic('einzelEcoFenster', 'Helles Einzelzimmer mit Fenster im Hotel Goldener Falke in Augsburg-Oberhausen', { sizes: '(max-width: 768px) 100vw, 50vw', style: 'width: 100%; height: 280px; object-fit: cover; border-radius: 12px; display: block;' })}
+        </div>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="/buchen.html" class="btn" style="display: inline-block; padding: 15px 40px; background-color: var(--clr-gold); color: white; border-radius: 8px; text-decoration: none;">Verfügbarkeit prüfen</a>
         </div>
     </div>
 </section>`;
@@ -141,6 +217,7 @@ const klinikHtml = `<section>
         <h1 style="text-align: center; margin-bottom: 30px;">Hotel nahe Uniklinik Augsburg und Josefinum</h1>
         <p style="font-size: 1.1rem; margin-bottom: 30px;"><strong>Kurz gesagt:</strong> Das Hotel Goldener Falke in Augsburg-Oberhausen liegt ca. 10 Minuten mit dem Auto vom Universitätsklinikum Augsburg und ca. 4 Minuten vom Josefinum entfernt. Für Angehörige und Besucher von Patienten bieten wir Sonderkonditionen – besonders bei längeren Aufenthalten. Kostenloser Parkplatz und ein 24h-Check-in-Terminal machen spontane Anreisen einfach.</p>
 
+        ${figure('einzelStandard', 'Ruhiges Einzelzimmer im Hotel Goldener Falke nahe Uniklinik Augsburg und Josefinum', '', { priority: true, sizes: '(max-width: 900px) 100vw, 900px', style: 'width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;' })}
         <div class="grid-2">
             <div class="feature-card">
                 <h3>Uniklinik Augsburg</h3>
@@ -188,6 +265,7 @@ const klinikHtml = `<section>
             </ul>
             <p>Die aktuellen Preise finden Sie unter <a href="/zimmer-preise.html">Zimmer &amp; Preise</a>. In unserer Gästelounge stehen Ihnen außerdem Kaffeemaschine, Computer und WLAN kostenfrei zur Verfügung – praktisch, wenn Sie zwischen zwei Besuchen etwas organisieren müssen.</p>
 
+            ${figure('buffet', 'Frühstücksbuffet im Hotel Goldener Falke in Augsburg-Oberhausen', 'Frühstücksbuffet – jeden Morgen frisch zubereitet', { sizes: '(max-width: 900px) 100vw, 640px', style: 'width: 100%; max-width: 640px; height: auto; border-radius: 12px; display: block; margin: 0 auto;' })}
             <h2>Was tun bei einem längeren Klinikaufenthalt?</h2>
             <p>Dauert der Aufenthalt Ihres Angehörigen länger, sprechen Sie uns auf unsere Konditionen für längere Aufenthalte an. Ab etwa einer Woche kann auch ein möbliertes Apartment mit eigener Küche sinnvoll sein – diese finden Sie bei unserer Schwesterseite <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a>.</p>
 
@@ -248,6 +326,7 @@ const messeHtml = `<section>
         <h1 style="text-align: center; margin-bottom: 30px;">Messehotel Augsburg</h1>
         <p style="font-size: 1.1rem; margin-bottom: 30px;"><strong>Kurz gesagt:</strong> Vom Hotel Goldener Falke in Augsburg-Oberhausen erreichen Sie die Messe Augsburg über die B17 in ca. 15 Minuten mit dem Auto. Für Aussteller, Fachbesucher und Geschäftsreisende bieten wir einen kostenlosen Parkplatz, ein 24h-Check-in-Terminal für späte Anreisen, kostenloses WLAN und ein Frühstücksbuffet – zu fairen Preisen bei Direktbuchung.</p>
 
+        ${figure('doppel', 'Doppelzimmer Standard im Hotel Goldener Falke – Messehotel in Augsburg-Oberhausen', '', { priority: true, sizes: '(max-width: 900px) 100vw, 900px', style: 'width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;' })}
         <div class="feature-card" style="max-width: 600px; margin: 0 auto;">
             <h3>Kurze Wege zur Messe</h3>
             <p>Über die B17 erreichen Sie die Messe Augsburg in nur ca. 15 Minuten.</p>
@@ -290,6 +369,7 @@ const messeHtml = `<section>
             </ul>
             <p>Aktuelle Preise und Verfügbarkeit finden Sie unter <a href="/zimmer-preise.html">Zimmer &amp; Preise</a>. Bei Direktbuchung über unsere Website zahlen Sie keine Buchungsgebühren.</p>
 
+            ${figure('buffet', 'Frühstücksbuffet für Messegäste im Hotel Goldener Falke Augsburg', 'Gut gestärkt in den Messetag: unser Frühstücksbuffet', { sizes: '(max-width: 900px) 100vw, 640px', style: 'width: 100%; max-width: 640px; height: auto; border-radius: 12px; display: block; margin: 0 auto;' })}
             <h2>Reisen Sie als Team an?</h2>
             <p>Für Messeteams, Standpersonal und Gruppen nennen wir Ihnen gern Gruppenpreise – sprechen Sie uns einfach an. Bleibt Ihr Team länger in Augsburg, etwa für Aufbau, Montage oder Projektarbeit, lohnt sich auch ein Blick auf unsere Schwesterseiten: <a href="https://www.monteurzimmer.augsburg-apartments.de/" target="_blank" rel="noopener">Monteurzimmer Augsburg</a> für Handwerker und Monteure sowie <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a> für möblierte Apartments ab einer Woche.</p>
 
@@ -322,10 +402,17 @@ const ueberHtml = `<section>
     <div class="container">
         <h1 style="text-align: center; margin-bottom: 30px;">Über das Hotel Goldener Falke</h1>
         <p style="text-align: center; font-size: 1.1rem; margin-bottom: 40px;">Seit über 100 Jahren Ihre Heimat in Augsburg.</p>
+        <div style="max-width: 800px; margin: 0 auto 40px;">
+        ${figure('fassade', 'Aquarell der Hausfassade des Hotel Goldener Falke in Augsburg-Oberhausen', 'Das Hotel Goldener Falke in der Neuhäuserstraße – als Aquarell', { priority: true, sizes: '(max-width: 800px) 100vw, 800px' })}
+        </div>
         <div class="feature-card" style="max-width: 800px; margin: 0 auto;">
             <p>Das Hotel Goldener Falke ist ein Familienhotel mit langer Tradition. Gegründet 1923, bieten wir komfortable und preiswerte Übernachtungen in einem der schönsten Teile Augsburgs.</p>
             <p style="margin-top: 20px;">Kostenlos Parken, 24h Check-In, WLAN und reichhaltiges Frühstück – alles zu fairen Preisen.</p>
         </div>
+        <div style="max-width: 480px; margin: 40px auto 0;">
+        ${figure('fruehstuecksraum', 'Frühstücksraum mit Buffet im Hotel Goldener Falke in Augsburg', 'Unser Frühstücksraum – das Buffet wird jeden Morgen frisch zubereitet', { sizes: '(max-width: 480px) 100vw, 480px' })}
+        </div>
+        <p style="text-align: center; margin-top: 20px;">Mehr zur Geschichte des Hauses lesen Sie im Blogbeitrag <a href="/blog/geschichte-goldener-falke.html">Die Geschichte des Goldenen Falken</a>.</p>
     </div>
 </section>`;
 
@@ -341,11 +428,21 @@ const lageHtml = `<section>
     <div class="container">
         <h1 style="text-align: center; margin-bottom: 30px;">Lage & Anfahrt</h1>
         <p style="text-align: center; font-size: 1.1rem; margin-bottom: 40px;">Hotel Goldener Falke · Neuhäuserstraße 10 · 86154 Augsburg</p>
+        <div style="max-width: 600px; margin: 0 auto 40px;">
+        ${figure('fassade', 'Aquarell des Hotel Goldener Falke in der Neuhäuserstraße 10 in Augsburg-Oberhausen', 'Hier finden Sie uns: Neuhäuserstraße 10 in Augsburg-Oberhausen', { priority: true, sizes: '(max-width: 600px) 100vw, 600px' })}
+        </div>
         <div class="feature-card" style="max-width: 600px; margin: 0 auto;">
-            <h3>Verkehranbindung</h3>
+            <h3>Verkehrsanbindung</h3>
             <p><strong>Kostenlos Parken:</strong> Direkter Parkplatz am Hotel</p>
             <p style="margin-top: 10px;"><strong>Öffentliche Verkehrsmittel:</strong> Nächste Bushaltestelle in Gehweite</p>
             <p style="margin-top: 10px;"><strong>Flughafen:</strong> ca. 50 Minuten Fahrzeit zum Flughafen München</p>
+        </div>
+        <div class="feature-card" style="max-width: 600px; margin: 30px auto 0;">
+            <h3>Mit dem Auto</h3>
+            <p>Autobahnausfahrt Augsburg West → B17 Richtung Landsberg → Ausfahrt Zentralklinikum → links nach Kriegshaber → geradeaus (Kobelweg) bis zur Backsteinkirche → Ampel links → unter Bahnunterführung → Ampel links in die Neuhäuserstr. → nach 50m rechts.</p>
+            <h3 style="margin-top: 20px;">Mit der Bahn</h3>
+            <p>Ticket für Augsburg-Oberhausen lösen. Direkt am Bahnhof Augsburg-Oberhausen aussteigen oder am Hbf umsteigen in R4/R6. Alternativ Straßenbahn Linie 4 → Umstieg Linie 2 Richtung P+R West → Haltestelle „Oberhausen Bahnhof/Helmut-Haller-Platz".</p>
+            <p style="margin-top: 15px;">Mehr Tipps im Blogbeitrag <a href="/blog/anreise-augsburg-auto-bahn-flugzeug.html">Anreise nach Augsburg</a>.</p>
         </div>
     </div>
 </section>`;
@@ -416,6 +513,9 @@ function createBlogPage(filename, post, allPosts) {
     let page = blogBaseTemplate();
     const url = `https://www.goldener-falke.de/blog/${post.slug}.html`;
     const seoTitle = post.seoTitle || `${post.title} | Hotel Goldener Falke Augsburg`;
+    // heroImage: Schlüssel aus IMAGES (Titelbild des Posts), heroAlt: Alt-Text
+    const heroKey = post.heroImage && IMAGES[post.heroImage] ? post.heroImage : null;
+    const ogImage = heroKey ? imageUrl(heroKey) : post.image;
     const description = post.metaDescription || post.excerpt;
 
     // Update meta tags
@@ -427,8 +527,8 @@ function createBlogPage(filename, post, allPosts) {
     page = setMeta(page, 'name', 'twitter:description', description);
     page = setMeta(page, 'property', 'og:url', url);
     page = setMeta(page, 'property', 'og:type', 'article');
-    page = setMeta(page, 'property', 'og:image', post.image);
-    page = setMeta(page, 'name', 'twitter:image', post.image);
+    page = setMeta(page, 'property', 'og:image', ogImage);
+    page = setMeta(page, 'name', 'twitter:image', ogImage);
     page = setMeta(page, 'name', 'keywords', post.keywords);
     page = page.replace(/<link rel="canonical" href=".*?"(.*?)>/, `<link rel="canonical" href="${url}"$1>`);
 
@@ -438,7 +538,7 @@ function createBlogPage(filename, post, allPosts) {
         "@type": "BlogPosting",
         "headline": post.title,
         "description": description,
-        "image": post.image,
+        "image": heroKey ? imageObject(heroKey, post.heroAlt) : post.image,
         "datePublished": post.date,
         "dateModified": post.dateModified || post.date,
         "inLanguage": "de-DE",
@@ -531,6 +631,8 @@ ${post.faq.map(f => `                    <details style="margin-bottom: 15px; ba
                 </div>
             </header>
 
+            ${heroKey ? figure(heroKey, post.heroAlt || post.title, post.heroCaption || '', { priority: true, sizes: '(max-width: 900px) 100vw, 900px', style: 'width: 100%; height: auto; max-height: 480px; object-fit: cover; border-radius: 12px; display: block;' }) : ''}
+
             <div class="blog-content" style="line-height: 1.8; font-size: 1.05rem; color: var(--clr-text);">
                 ${post.content}
 ${faqHtml}
@@ -592,8 +694,9 @@ function createBlogIndex() {
     // Create blog listing
     const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    const postCardsHtml = sortedPosts.map(post => `
+    const postCardsHtml = sortedPosts.map((post, i) => `
         <article class="blog-card" style="background: white; padding: 30px; border-radius: 12px; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid var(--clr-warm-dark);">
+            ${post.heroImage && IMAGES[post.heroImage] ? `<a href="/blog/${post.slug}.html" aria-hidden="true" tabindex="-1">${pic(post.heroImage, post.heroAlt || post.title, { priority: i === 0, sizes: '(max-width: 768px) 100vw, 400px', style: 'width: 100%; height: 200px; object-fit: cover; border-radius: 10px; display: block; margin-bottom: 20px;' })}</a>` : ''}
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
                 <h3 style="flex: 1;"><a href="/blog/${post.slug}.html" style="color: var(--clr-dark); text-decoration: none; transition: var(--transition);">${post.title}</a></h3>
             </div>
@@ -645,6 +748,9 @@ console.log('Created blog/index.html');
 const faqHtml = `<section>
     <div class="container">
         <h1 style="text-align: center; margin-bottom: 30px;">Häufig gestellte Fragen</h1>
+        <div style="max-width: 800px; margin: 0 auto 30px;">
+        ${figure('zimmer', 'Hotelzimmer mit großem Bett im Hotel Goldener Falke in Augsburg-Oberhausen', '', { priority: true, sizes: '(max-width: 800px) 100vw, 800px', style: 'width: 100%; height: auto; max-height: 420px; object-fit: cover; border-radius: 12px; display: block;' })}
+        </div>
 
             <script type="application/ld+json">
             {
