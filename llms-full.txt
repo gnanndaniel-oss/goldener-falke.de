@@ -113,13 +113,23 @@ Für Aufenthalte ab 1 Woche: Möblierte Apartments über Partnerseite apartment-
 | Seite | URL |
 |-------|-----|
 | Startseite | https://www.goldener-falke.de/ |
-| Zimmer & Preise | https://www.goldener-falke.de/zimmer-preise |
-| Klinikbesucher | https://www.goldener-falke.de/hotel-klinik-augsburg |
-| Lage & Anfahrt | https://www.goldener-falke.de/lage-anfahrt |
-| Messehotel | https://www.goldener-falke.de/hotel-messe-augsburg |
-| Über Uns | https://www.goldener-falke.de/ueber-uns |
-| FAQ | https://www.goldener-falke.de/haeufige-fragen |
+| Zimmer & Preise | https://www.goldener-falke.de/zimmer-preise.html |
+| Klinikbesucher | https://www.goldener-falke.de/hotel-klinik-augsburg.html |
+| Lage & Anfahrt | https://www.goldener-falke.de/lage-anfahrt.html |
+| Messehotel | https://www.goldener-falke.de/hotel-messe-augsburg.html |
+| Über Uns | https://www.goldener-falke.de/ueber-uns.html |
+| FAQ | https://www.goldener-falke.de/haeufige-fragen.html |
 | Online Buchen | https://www.goldener-falke.de/buchen |
+| Blog | https://www.goldener-falke.de/blog/ |
+| Blog: Augsburger Bierkultur — Brauereien, Biergärten und Tradition | https://www.goldener-falke.de/blog/augsburger-bierkultur-brauereitour.html |
+| Blog: Übernachten in Augsburg-Oberhausen: Hotel, Pension oder Monteurzimmer? | https://www.goldener-falke.de/blog/uebernachten-augsburg-oberhausen-hotel-pension-monteurzimmer.html |
+| Blog: Augsburg an einem Wochenende: Route für Hotelgäste | https://www.goldener-falke.de/blog/augsburg-wochenende-route.html |
+| Blog: Anreise nach Augsburg: Mit Auto, Bahn und Flugzeug zum Hotel | https://www.goldener-falke.de/blog/anreise-augsburg-auto-bahn-flugzeug.html |
+| Blog: Die Augsburger Puppenkiste — Ein Familienausflug zwischen Urmel und Jim Knopf | https://www.goldener-falke.de/blog/augsburger-puppenkiste-familienausflug.html |
+| Blog: Tagesausflug ins Lechtal: Wandern und Natur ab Augsburg | https://www.goldener-falke.de/blog/tagesausflug-lechtal-wandern-augsburg.html |
+| Blog: Die Fuggerei in Augsburg — Geschichte, Besuch und Anfahrt | https://www.goldener-falke.de/blog/fuggerei-augsburg-sehenswuerdigkeit.html |
+| Blog: Die Geschichte des Goldenen Falken — Über 100 Jahre Gastlichkeit | https://www.goldener-falke.de/blog/geschichte-goldener-falke.html |
+| Blog: Augsburger Küche: Die besten traditionellen Gerichte | https://www.goldener-falke.de/blog/augsburger-kueche-traditionelle-gerichte.html |
 
 ## Häufige Fragen (FAQ)
 
@@ -147,12 +157,98 @@ Ja, in allen Zimmern und öffentlichen Bereichen.
 **Gibt es Langzeitunterkünfte?**
 Für Aufenthalte ab 1 Woche empfehlen wir unsere möblierten Apartments: apartment-augsburg.de
 
+## Blog: Augsburg-Tipps vom Hotel Goldener Falke
+
+### Augsburger Bierkultur — Brauereien, Biergärten und Tradition
+https://www.goldener-falke.de/blog/augsburger-bierkultur-brauereitour.html
+
+Augsburg ist eine alte Bierstadt: Bier-Vorschriften schon im Stadtrecht von 1156, Brauereien wie Riegele und Thorbräu, Biergärten und der Plärrer. Ein Guide zur Augsburger Bierkultur.
+
+- **Welche Brauereien gibt es in Augsburg?** Die bekannteste ist die Brauerei S. Riegele, deren Brautradition sich laut Brauerei bis 1386 zurückverfolgen lässt. Eine weitere traditionsreiche Augsburger Privatbrauerei ist Thorbräu. Dazu kommen kleinere Brauereien und Craft-Bier-Angebote.
+- **Kann man in Augsburg eine Brauereiführung machen?** Ja, die Brauerei Riegele bietet Brauereiführungen und Bierseminare an. Termine und Preise finden Sie auf riegele.de.
+- **Was ist das Augsburger Stadtrecht von 1156?** Das Augsburger Stadtrecht von 1156 enthielt unter anderem Vorschriften über die Qualität des Bieres. Es gilt als eine der frühen Bier-Regelungen im deutschsprachigen Raum – lange vor dem bayerischen Reinheitsgebot von 1516.
+- **Wann ist der Augsburger Plärrer?** Der Plärrer, das große Augsburger Volksfest, findet zweimal im Jahr statt – im Frühjahr und im Spätsommer. Die genauen Termine werden jährlich festgelegt.
+- **Wo übernachtet man nach einem Abend im Biergarten?** Das Hotel Goldener Falke in Augsburg-Oberhausen liegt wenige Gehminuten von Straßenbahn, Bus und Regionalbahn entfernt. So lassen Sie das Auto kostenlos am Hotel stehen und kommen bequem zurück.
+
+### Übernachten in Augsburg-Oberhausen: Hotel, Pension oder Monteurzimmer?
+https://www.goldener-falke.de/blog/uebernachten-augsburg-oberhausen-hotel-pension-monteurzimmer.html
+
+Hotel, Pension, Monteurzimmer oder Apartment? Welche Unterkunft in Augsburg-Oberhausen zu Ihrer Reise passt – für Städtetrip, Klinikbesuch, Geschäftsreise oder Montage.
+
+- **Gibt es in Augsburg-Oberhausen ein Hotel mit 24h-Check-in?** Ja. Das Hotel Goldener Falke in der Neuhäuserstraße 10 hat ein elektronisches 24h-Check-in-Terminal. Nach kurzer Voranmeldung per Telefon oder E-Mail erhalten Sie dort rund um die Uhr Ihre Zimmerkarte. Reguläre Check-in-Zeiten sind Montag bis Freitag 14:00 bis 18:00 Uhr.
+- **Was ist der Unterschied zwischen Hotel und Pension?** Die Grenzen sind fließend. Pensionen sind meist kleinere, familiär betriebene Häuser mit einfacherem Service; Hotels bieten in der Regel mehr Service wie Frühstücksbuffet und flexiblere Check-in-Möglichkeiten.
+- **Wo finde ich Monteurzimmer in Augsburg?** Monteurzimmer und Monteurwohnungen in Augsburg finden Sie auf unserer Schwesterseite monteurzimmer.augsburg-apartments.de. Für einzelne Nächte ist auch ein Hotelzimmer mit Frühstück und Parkplatz eine gute Wahl.
+- **Ab wann lohnt sich ein möbliertes Apartment?** In der Regel ab etwa einer Woche Aufenthalt, wenn Sie mehr Platz und eine eigene Küche möchten. Möblierte Apartments in Augsburg finden Sie auf apartment-augsburg.de.
+- **Hat das Hotel Goldener Falke einen Parkplatz?** Ja, Gäste parken kostenlos auf dem hauseigenen Parkplatz direkt am Hotel (nach Verfügbarkeit).
+
+### Augsburg an einem Wochenende: Route für Hotelgäste
+https://www.goldener-falke.de/blog/augsburg-wochenende-route.html
+
+Zwei Tage Augsburg: Unsere Wochenend-Route führt vom Rathausplatz über Maximilianstraße und Fuggerei bis zum Dom, zu Museen, zur Puppenkiste und an den Lech.
+
+- **Reicht ein Wochenende für Augsburg?** Ja. Die Altstadt ist kompakt, die wichtigsten Sehenswürdigkeiten – Rathaus, Maximilianstraße, Fuggerei und Dom – liegen nah beieinander. An zwei Tagen bleibt zusätzlich Zeit für ein Museum oder die Puppenkiste.
+- **Was sind die wichtigsten Sehenswürdigkeiten in Augsburg?** Zu den Highlights zählen das Rathaus mit dem Goldenen Saal, der Perlachturm, die Maximilianstraße mit ihren Prachtbrunnen, die Fuggerei, der Hohe Dom, die Basilika St. Ulrich und Afra und die Augsburger Puppenkiste.
+- **Seit wann ist Augsburg UNESCO-Welterbe?** Das Augsburger Wassermanagement-System wurde 2019 in die UNESCO-Welterbeliste aufgenommen. Dazu gehören unter anderem die großen Prachtbrunnen in der Innenstadt.
+- **Wie bewegt man sich in Augsburg am besten fort?** Innerhalb der Stadt sind Straßenbahn und Bus die bequemste Wahl, in der Altstadt geht man zu Fuß. Vom Hotel Goldener Falke erreichen Sie die Haltestelle „Oberhausen Bahnhof/Helmut-Haller-Platz“ in wenigen Gehminuten.
+- **Kann ich am Freitag spät noch einchecken?** Ja. Im Hotel Goldener Falke nutzen Sie nach kurzer Voranmeldung das 24h-Check-in-Terminal – auch spät abends oder am Wochenende.
+
+### Anreise nach Augsburg: Mit Auto, Bahn und Flugzeug zum Hotel
+https://www.goldener-falke.de/blog/anreise-augsburg-auto-bahn-flugzeug.html
+
+So kommen Sie nach Augsburg: mit dem Auto über A8 und B17, mit der Bahn zum Hauptbahnhof oder nach Oberhausen, per Flugzeug über München oder Memmingen – inklusive Wegbeschreibung zum Hotel.
+
+- **Welcher Flughafen ist am nächsten an Augsburg?** Augsburg hat keinen eigenen Linienflughafen. Die wichtigsten Flughäfen für die Anreise sind der Flughafen München und der Allgäu Airport Memmingen.
+- **Wie komme ich vom Flughafen München nach Augsburg?** Mit dem Auto über die Autobahn; bis zum Hotel Goldener Falke sind es ca. 50 Minuten Fahrzeit, je nach Verkehr. Mit öffentlichen Verkehrsmitteln fahren Sie mit der S-Bahn nach München und steigen dort in einen Zug nach Augsburg um.
+- **Welche Autobahnausfahrt nehme ich zum Hotel Goldener Falke?** Nehmen Sie auf der A8 die Ausfahrt Augsburg-West und fahren Sie auf die B17 Richtung Landsberg bis zur Ausfahrt Zentralklinikum. Die Adresse für das Navi lautet Neuhäuserstraße 10, 86154 Augsburg.
+- **Welcher Bahnhof ist dem Hotel am nächsten?** Der Bahnhof Augsburg-Oberhausen liegt nur wenige Gehminuten vom Hotel entfernt. Alternativ fahren Sie vom Hauptbahnhof mit Regionalbahn oder Straßenbahn nach Oberhausen.
+- **Gibt es am Hotel einen Parkplatz?** Ja, der hauseigene Parkplatz direkt am Hotel ist für Gäste kostenlos (nach Verfügbarkeit).
+- **Kann ich auch nachts anreisen?** Ja. Nach kurzer Voranmeldung nutzen Sie das 24h-Check-in-Terminal des Hotels – rund um die Uhr, sieben Tage die Woche.
+
+### Die Augsburger Puppenkiste — Ein Familienausflug zwischen Urmel und Jim Knopf
+https://www.goldener-falke.de/blog/augsburger-puppenkiste-familienausflug.html
+
+Besuch der weltberühmten Augsburger Puppenkiste: Geschichte, Vorstellungen, Tickets und die besten Tipps für einen Familienausflug in die Fuggerstadt.
+
+### Tagesausflug ins Lechtal: Wandern und Natur ab Augsburg
+https://www.goldener-falke.de/blog/tagesausflug-lechtal-wandern-augsburg.html
+
+Entdecken Sie das Lechtal ab Augsburg: Wanderrouten, Naturerlebnisse und die besten Ausflugsziele für einen perfekten Tag in der bayerischen Natur.
+
+### Die Fuggerei in Augsburg — Geschichte, Besuch und Anfahrt
+https://www.goldener-falke.de/blog/fuggerei-augsburg-sehenswuerdigkeit.html
+
+Die Fuggerei ist die älteste bestehende Sozialsiedlung der Welt: 1521 von Jakob Fugger gestiftet, Jahresmiete 0,88 Euro plus drei Gebete. Fakten, Museum, Besuchstipps und Anfahrt ab Augsburg-Oberhausen.
+
+- **Wer hat die Fuggerei gegründet?** Die Fuggerei wurde 1521 von dem Augsburger Kaufmann und Bankier Jakob Fugger („dem Reichen“) gestiftet. Die von ihm gegründete Stiftung verwaltet die Siedlung bis heute.
+- **Warum ist die Fuggerei so berühmt?** Die Fuggerei ist die älteste bestehende Sozialsiedlung der Welt. Seit über 500 Jahren wohnen dort bedürftige Augsburger Bürger zu nahezu unveränderten Bedingungen.
+- **Wie viel Miete zahlt man in der Fuggerei?** Die Jahres-Kaltmiete beträgt 0,88 Euro – der Gegenwert eines Rheinischen Guldens. Zusätzlich sprechen die Bewohner täglich drei Gebete für den Stifter und seine Familie.
+- **Kann man die Fuggerei besichtigen?** Ja. Besucher können die Siedlung und ihre Museen besichtigen, darunter eine rekonstruierte historische Wohnung und eine Ausstellung im Weltkriegsbunker. Aktuelle Öffnungszeiten und Eintrittspreise finden Sie auf der offiziellen Website der Fuggerei.
+- **Wer darf in der Fuggerei wohnen?** Die Bewohner müssen Augsburger Bürger, katholischen Glaubens und bedürftig sein. Heute leben rund 150 Menschen in der Fuggerei.
+- **Wie komme ich vom Hotel Goldener Falke zur Fuggerei?** Vom Hotel in Augsburg-Oberhausen fahren Sie ab der nahen Haltestelle „Oberhausen Bahnhof/Helmut-Haller-Platz“ mit der Straßenbahn in die Innenstadt und gehen von dort zu Fuß in die Jakobervorstadt. Ihr Auto kann kostenlos auf dem Hotelparkplatz bleiben.
+
+### Die Geschichte des Goldenen Falken — Über 100 Jahre Gastlichkeit
+https://www.goldener-falke.de/blog/geschichte-goldener-falke.html
+
+Seit 1923 beherbergt das Hotel Goldener Falke Gäste aus aller Welt. Erfahren Sie mehr über unsere bewegte Geschichte und die Werte, die uns bis heute prägen.
+
+### Augsburger Küche: Die besten traditionellen Gerichte
+https://www.goldener-falke.de/blog/augsburger-kueche-traditionelle-gerichte.html
+
+Was isst man in Augsburg? Von Kässpätzle und Maultaschen bis zum Zwetschgendatschi – die typischen Augsburger Spezialitäten der schwäbischen Küche im Überblick.
+
+- **Was ist typisch Augsburger Essen?** Die Augsburger Küche ist schwäbisch geprägt. Typisch sind Kässpätzle, Maultaschen, Krautspätzle, Schupfnudeln, Flädlesuppe und – als Kuchen – der Zwetschgendatschi.
+- **Warum heißt Augsburg „Datschiburg“?** Der Spitzname geht auf den Zwetschgendatschi zurück, einen Blechkuchen mit Zwetschgen, der in Augsburg besonders beliebt ist – vor allem im Spätsommer, wenn die Zwetschgen reif sind.
+- **Ist die Augsburger Küche bayerisch oder schwäbisch?** Beides: Augsburg liegt im bayerischen Regierungsbezirk Schwaben. Die Küche ist daher überwiegend schwäbisch – mit Spätzle, Maultaschen und Kraut – ergänzt um bayerische Wirtshausklassiker.
+- **Welches Bier trinkt man in Augsburg?** Augsburg hat eine lange Brautradition. Die bekannteste Brauerei der Stadt ist Riegele; daneben gibt es weitere Augsburger Brauereien wie Thorbräu. Mehr dazu in unserem Beitrag zur Augsburger Bierkultur.
+- **Wo kann man in Augsburg schwäbisch essen?** Schwäbische Gerichte finden Sie in vielen Wirtshäusern und Gaststätten in der Altstadt und in den Stadtteilen. Vom Hotel Goldener Falke in Augsburg-Oberhausen erreichen Sie die Innenstadt bequem mit der Straßenbahn.
+
 ## Partnerseiten (Gnann Verwaltung GmbH)
 
 - **Hotel Goldener Falke** (dieses Hotel): https://www.goldener-falke.de
 - **Apartment Augsburg** (Möblierte Apartments & Monteurzimmer): https://www.apartment-augsburg.de
 - **Wohnbaron** (Alle Augsburger Unterkünfte): https://www.wohnbaron.de
 - **Relocation Augsburg** (Relocation Service): https://www.relocation-augsburg.de
+- **Monteurzimmer Augsburg** (Monteurzimmer & Monteurwohnungen): https://www.monteurzimmer.augsburg-apartments.de
 
 ## Rechtliches
 

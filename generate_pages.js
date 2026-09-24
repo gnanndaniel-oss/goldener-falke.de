@@ -28,28 +28,53 @@ function createPage(filename, title, description, ogUrl, customHtml, schema = nu
 
     // Replace Title
     page = page.replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`);
-    page = page.replace(/<meta property="og:title" content=".*?">/, `<meta property="og:title" content="${title}">`);
-    page = page.replace(/<meta name="twitter:title" content=".*?">/, `<meta name="twitter:title" content="${title}">`);
+    page = setMeta(page, 'property', 'og:title', title);
+    page = setMeta(page, 'name', 'twitter:title', title);
 
     // Replace Description
-    page = page.replace(/<meta name="description"[\s\S]*?\/>/, `<meta name="description" content="${description}" />`);
-    page = page.replace(/<meta property="og:description"[\s\S]*?>/, `<meta property="og:description" content="${description}">`);
-    page = page.replace(/<meta name="twitter:description"[\s\S]*?>/, `<meta name="twitter:description" content="${description}">`);
+    page = setMeta(page, 'name', 'description', description);
+    page = setMeta(page, 'property', 'og:description', description);
+    page = setMeta(page, 'name', 'twitter:description', description);
 
     // Replace canonical and OG URL
-    page = page.replace(/<meta property="og:url" content=".*?">/, `<meta property="og:url" content="${ogUrl}">`);
+    page = setMeta(page, 'property', 'og:url', ogUrl);
     page = page.replace(/<link rel="canonical" href=".*?"(.*?)>/, `<link rel="canonical" href="${ogUrl}"$1>`);
 
-    // Add schema.org JSON-LD if provided
+    // Add schema.org JSON-LD if provided (Objekt oder Array von Objekten)
     if (schema) {
-        const schemaTag = `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
-        page = page.replace('</head>', `${schemaTag}\n</head>`);
+        const list = Array.isArray(schema) ? schema : [schema];
+        const schemaTags = list.map(sc => `<script type="application/ld+json">\n${JSON.stringify(sc, null, 2)}\n</script>`).join('\n');
+        page = page.replace('</head>', `${schemaTags}\n</head>`);
     }
 
     // Insert Custom HTML
     page = page.replace('<!-- Footer -->', customHtml + '\n\n    <!-- Footer -->');
 
     fs.writeFileSync(filename, page);
+}
+
+// FAQ-Helfer für Seiten mit sichtbarem FAQ-Block + FAQPage-Schema
+function faqBlock(faq) {
+    return `
+        <h2 id="faq" style="margin-top: 50px;">Häufige Fragen</h2>
+        <div class="faq-list" style="margin-top: 20px;">
+${faq.map(f => `            <details style="margin-bottom: 15px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid var(--clr-gray); cursor: pointer;">
+                <summary style="font-weight: 700; font-size: 1.05rem; color: var(--clr-brand); outline: none;">${f.q}</summary>
+                <p style="margin-top: 15px; line-height: 1.6;">${f.a}</p>
+            </details>`).join('\n')}
+        </div>`;
+}
+
+function faqSchema(faq) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faq.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": stripHtml(f.a) }
+        }))
+    };
 }
 
 // 1. Zimmer & Preise
@@ -77,17 +102,45 @@ const zimmerHtml = `<section>
 </section>`;
 
 createPage('zimmer-preise.html',
-    'Zimmer & Preise | Hotel Goldener Falke Augsburg',
-    'Einzelzimmer ab 59 EUR, Doppelzimmer ab 89 EUR pro Nacht. Kostenlos Parken, WLAN & Frühstück. Jetzt buchen!',
+    "Zimmer & Preise | Hotel in Augsburg ab 59 € – Goldener Falke",
+    "Einzelzimmer ab 59 €, Doppelzimmer ab 89 € pro Nacht in Augsburg-Oberhausen: Dusche/WC, TV, WLAN, Frühstücksbuffet, kostenloser Parkplatz und 24h-Check-in.",
     'https://www.goldener-falke.de/zimmer-preise.html',
     zimmerHtml
 );
 
 // 2. Hotel Klinik Augsburg
+const klinikFaq = [
+    {
+        "q": "Wie weit ist das Hotel von der Uniklinik Augsburg entfernt?",
+        "a": "Das Hotel Goldener Falke liegt ca. 10 Minuten mit dem Auto vom Universitätsklinikum Augsburg entfernt."
+    },
+    {
+        "q": "Wie weit ist es zum Josefinum?",
+        "a": "Das Josefinum erreichen Sie vom Hotel aus in etwa 4 Minuten mit dem Auto."
+    },
+    {
+        "q": "Gibt es Sonderkonditionen für Klinikbesucher?",
+        "a": "Ja, wir bieten spezielle, ermäßigte Konditionen für Angehörige und Besucher von Patienten, besonders bei längeren Aufenthalten. Bitte kontaktieren Sie uns telefonisch unter +49 821 41 19 57 oder per E-Mail an hotel@goldener-falke.de für Ihr individuelles Angebot."
+    },
+    {
+        "q": "Kann ich auch spät abends oder am Wochenende anreisen?",
+        "a": "Ja. Nach kurzer Voranmeldung per Telefon oder E-Mail schalten wir unser 24h-Check-in-Terminal für Sie frei. Dort erhalten Sie mit Ihrem Reservierungsnamen rund um die Uhr Ihre Zimmerkarte."
+    },
+    {
+        "q": "Kann ich am Hotel parken?",
+        "a": "Ja, der hauseigene Parkplatz direkt am Hotel ist für Gäste kostenlos (nach Verfügbarkeit)."
+    },
+    {
+        "q": "Was ist bei einem sehr langen Klinikaufenthalt die beste Unterkunft?",
+        "a": "Sprechen Sie uns auf unsere Konditionen für längere Aufenthalte an. Ab etwa einer Woche sind auch möblierte Apartments mit Küche eine Option – zu finden auf apartment-augsburg.de."
+    }
+];
+
 const klinikHtml = `<section>
-    <div class="container">
-        <h1 style="text-align: center; margin-bottom: 30px;">Sonderangebot Klinikbesucher</h1>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 40px;">Wir bieten Angehörigen und Besuchern spezielle Konditionen für längere Aufenthalte.</p>
+    <div class="container" style="max-width: 900px;">
+        <h1 style="text-align: center; margin-bottom: 30px;">Hotel nahe Uniklinik Augsburg und Josefinum</h1>
+        <p style="font-size: 1.1rem; margin-bottom: 30px;"><strong>Kurz gesagt:</strong> Das Hotel Goldener Falke in Augsburg-Oberhausen liegt ca. 10 Minuten mit dem Auto vom Universitätsklinikum Augsburg und ca. 4 Minuten vom Josefinum entfernt. Für Angehörige und Besucher von Patienten bieten wir Sonderkonditionen – besonders bei längeren Aufenthalten. Kostenloser Parkplatz und ein 24h-Check-in-Terminal machen spontane Anreisen einfach.</p>
+
         <div class="grid-2">
             <div class="feature-card">
                 <h3>Uniklinik Augsburg</h3>
@@ -98,6 +151,56 @@ const klinikHtml = `<section>
                 <p>Etwa 4 Minuten Fahrtzeit</p>
             </div>
         </div>
+
+        <div class="blog-content" style="line-height: 1.8; font-size: 1.05rem; margin-top: 40px;">
+            <h2>Das Wichtigste auf einen Blick</h2>
+            <ul>
+                <li><strong>Adresse:</strong> Hotel Goldener Falke, Neuhäuserstraße 10, 86154 Augsburg (Oberhausen)</li>
+                <li><strong>Universitätsklinikum Augsburg:</strong> ca. 10 Minuten mit dem Auto</li>
+                <li><strong>Josefinum:</strong> ca. 4 Minuten mit dem Auto</li>
+                <li><strong>Sonderkonditionen:</strong> ermäßigte Konditionen für Angehörige und Besucher von Patienten – bitte direkt anfragen</li>
+                <li><strong>Parken:</strong> kostenloser Hotelparkplatz direkt am Haus (nach Verfügbarkeit)</li>
+                <li><strong>Check-in:</strong> regulär Montag bis Freitag 14:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
+                <li><strong>Zimmer:</strong> Einzel- und Doppelzimmer mit Dusche/WC, TV und kostenlosem WLAN</li>
+                <li><strong>Frühstück:</strong> Frühstücksbuffet, jeden Morgen frisch zubereitet</li>
+                <li><strong>Längere Aufenthalte:</strong> ab einer Woche auch möblierte Apartments über <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a></li>
+            </ul>
+
+            <h2>Warum ein Hotel in der Nähe der Klinik?</h2>
+            <p>Wenn ein Familienmitglied oder ein nahestehender Mensch im Krankenhaus liegt, zählt vor allem eines: schnell da sein zu können. Lange Anfahrten, Parkplatzsuche und starre Hotelzeiten kosten Kraft, die Sie in dieser Situation für anderes brauchen. Das Hotel Goldener Falke liegt in Augsburg-Oberhausen und damit nur wenige Minuten von zwei wichtigen Augsburger Kliniken entfernt – dem Universitätsklinikum Augsburg und dem Josefinum.</p>
+            <p>So können Sie morgens nach dem Frühstück zur Besuchszeit fahren, mittags kurz durchatmen und abends ohne lange Wege zurück ins Zimmer. Ihr Auto bleibt auf unserem kostenlosen Hotelparkplatz stehen, bis Sie es brauchen.</p>
+
+            <h2>Welche Sonderkonditionen gibt es für Klinikbesucher?</h2>
+            <p>Wir bieten Angehörigen und Besuchern von Patienten spezielle, ermäßigte Konditionen – insbesondere für längere Aufenthalte. Da jede Situation anders ist, erstellen wir Ihnen gern ein individuelles Angebot. Rufen Sie uns an unter <a href="tel:+49821411957">+49 821 41 19 57</a>, schreiben Sie an <a href="mailto:hotel@goldener-falke.de">hotel@goldener-falke.de</a> oder nutzen Sie das <a href="/#kontakt">Kontaktformular</a>. Nennen Sie uns am besten gleich den geplanten Zeitraum und die Anzahl der Personen.</p>
+
+            <h2>Was ist, wenn ich spontan oder spät anreisen muss?</h2>
+            <p>Klinikbesuche lassen sich selten lange im Voraus planen. Deshalb gibt es bei uns ein <strong>24h-Check-in-Terminal</strong>. Unsere regulären Check-in-Zeiten sind Montag bis Freitag von 14:00 bis 18:00 Uhr. Kommen Sie später, früh morgens oder am Wochenende an, melden Sie Ihre Anreise kurz telefonisch oder per E-Mail an. Wir schalten das Self-Service-Terminal am Eingang für Sie frei, und Sie erhalten dort mit Ihrem Reservierungsnamen Ihre Zimmerkarte – rund um die Uhr.</p>
+
+            <h2>Wie komme ich vom Hotel zur Uniklinik und zum Josefinum?</h2>
+            <p>Mit dem Auto erreichen Sie das Universitätsklinikum Augsburg in ca. 10 Minuten und das Josefinum in ca. 4 Minuten. Wer ohne Auto unterwegs ist, nutzt Straßenbahn und Bus: Die Haltestelle „Oberhausen Bahnhof/Helmut-Haller-Platz" liegt direkt um die Ecke. Die aktuelle Verbindung zu Ihrer Klinik finden Sie in der Fahrplanauskunft der <a href="https://www.sw-augsburg.de/" target="_blank" rel="noopener">Stadtwerke Augsburg</a>. Wie Sie zu uns ins Hotel kommen, erklärt unsere Seite <a href="/lage-anfahrt.html">Lage &amp; Anfahrt</a>.</p>
+
+            <h2>Wie sind die Zimmer ausgestattet?</h2>
+            <p>Alle Zimmer haben Dusche/WC, TV und kostenloses WLAN. Zur Auswahl stehen:</p>
+            <ul>
+                <li><strong>Einzelzimmer Eco</strong> – Dusche/WC, TV, Erfrischungsgetränk, kostenloses WLAN</li>
+                <li><strong>Einzelzimmer Standard</strong> – zusätzlich mit Safe und Kühlschrank</li>
+                <li><strong>Doppelzimmer Standard</strong> – mit Doppelbett, Safe und Kühlschrank, ideal, wenn Sie zu zweit anreisen</li>
+            </ul>
+            <p>Die aktuellen Preise finden Sie unter <a href="/zimmer-preise.html">Zimmer &amp; Preise</a>. In unserer Gästelounge stehen Ihnen außerdem Kaffeemaschine, Computer und WLAN kostenfrei zur Verfügung – praktisch, wenn Sie zwischen zwei Besuchen etwas organisieren müssen.</p>
+
+            <h2>Was tun bei einem längeren Klinikaufenthalt?</h2>
+            <p>Dauert der Aufenthalt Ihres Angehörigen länger, sprechen Sie uns auf unsere Konditionen für längere Aufenthalte an. Ab etwa einer Woche kann auch ein möbliertes Apartment mit eigener Küche sinnvoll sein – diese finden Sie bei unserer Schwesterseite <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a>.</p>
+
+            <h2>Tipps für Ihren Aufenthalt als Klinikbesucher</h2>
+            <ul>
+                <li>Informieren Sie sich vorab auf der Website der jeweiligen Klinik über Besuchszeiten und aktuelle Besuchsregeln.</li>
+                <li>Melden Sie eine späte Anreise kurz an – dann ist das Check-in-Terminal für Sie freigeschaltet.</li>
+                <li>Lassen Sie das Auto am Hotel stehen, wenn Sie in der Klinik keinen Parkplatz suchen möchten, und fahren Sie mit Straßenbahn oder Bus.</li>
+                <li>Fragen Sie bei Buchung nach den Sonderkonditionen für Klinikbesucher.</li>
+            </ul>
+            <p>Weitere Antworten finden Sie in unseren <a href="/haeufige-fragen.html">häufigen Fragen</a> und im Blogbeitrag <a href="/blog/uebernachten-augsburg-oberhausen-hotel-pension-monteurzimmer.html">Übernachten in Augsburg-Oberhausen</a>.</p>
+        </div>
+${faqBlock(klinikFaq)}
         <div style="margin-top: 40px; text-align: center;">
             <a href="/#kontakt" class="btn" style="display: inline-block; padding: 15px 40px; background-color: var(--clr-gold); color: white; border-radius: 8px; cursor: pointer; text-decoration: none;">Kontaktieren Sie uns für Ihr Angebot</a>
         </div>
@@ -105,30 +208,113 @@ const klinikHtml = `<section>
 </section>`;
 
 createPage('hotel-klinik-augsburg.html',
-    'Spezialkonditionen für Klinikbesucher | Hotel Goldener Falke Augsburg',
-    'Ermäßigte Konditionen für Angehörige von Patienten der Uniklinik und des Josefinum Augsburg.',
+    "Hotel nahe Uniklinik Augsburg & Josefinum | Goldener Falke",
+    "Hotel für Klinikbesucher in Augsburg: ca. 10 Min. zur Uniklinik, ca. 4 Min. zum Josefinum. Sonderkonditionen für Angehörige, Parkplatz gratis, 24h-Check-in.",
     'https://www.goldener-falke.de/hotel-klinik-augsburg.html',
-    klinikHtml
+    klinikHtml,
+    faqSchema(klinikFaq)
 );
 
 // 3. Hotel Messe Augsburg
+const messeFaq = [
+    {
+        "q": "Wie weit ist das Hotel von der Messe Augsburg entfernt?",
+        "a": "Über die B17 erreichen Sie die Messe Augsburg mit dem Auto in ca. 15 Minuten."
+    },
+    {
+        "q": "Gibt es einen Parkplatz am Hotel?",
+        "a": "Ja, Gäste parken kostenlos auf dem hauseigenen Parkplatz direkt am Hotel (nach Verfügbarkeit)."
+    },
+    {
+        "q": "Kann ich nach einem Messetag spät einchecken?",
+        "a": "Ja. Nach kurzer Voranmeldung nutzen Sie unser 24h-Check-in-Terminal. Die regulären Check-in-Zeiten sind Montag bis Freitag 14:00 bis 18:00 Uhr."
+    },
+    {
+        "q": "Gibt es WLAN zum Arbeiten?",
+        "a": "Ja, kostenloses WLAN steht in allen Zimmern und im gesamten Hotelbereich zur Verfügung. In der Gästelounge gibt es zusätzlich einen Computer und eine Kaffeemaschine."
+    },
+    {
+        "q": "Gibt es Gruppenpreise für Messeteams?",
+        "a": "Ja, Gruppenpreise erhalten Sie auf Anfrage – telefonisch unter +49 821 41 19 57 oder per E-Mail an hotel@goldener-falke.de."
+    },
+    {
+        "q": "Wie komme ich von der Autobahn zum Hotel?",
+        "a": "Nehmen Sie auf der A8 die Ausfahrt Augsburg-West und fahren Sie auf die B17 Richtung Landsberg bis zur Ausfahrt Zentralklinikum. Die Navi-Adresse lautet Neuhäuserstraße 10, 86154 Augsburg."
+    }
+];
+
 const messeHtml = `<section>
-    <div class="container">
+    <div class="container" style="max-width: 900px;">
         <h1 style="text-align: center; margin-bottom: 30px;">Messehotel Augsburg</h1>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 40px;">Perfekt für Geschäftsreisende und Messegäste.</p>
+        <p style="font-size: 1.1rem; margin-bottom: 30px;"><strong>Kurz gesagt:</strong> Vom Hotel Goldener Falke in Augsburg-Oberhausen erreichen Sie die Messe Augsburg über die B17 in ca. 15 Minuten mit dem Auto. Für Aussteller, Fachbesucher und Geschäftsreisende bieten wir einen kostenlosen Parkplatz, ein 24h-Check-in-Terminal für späte Anreisen, kostenloses WLAN und ein Frühstücksbuffet – zu fairen Preisen bei Direktbuchung.</p>
+
         <div class="feature-card" style="max-width: 600px; margin: 0 auto;">
             <h3>Kurze Wege zur Messe</h3>
             <p>Über die B17 erreichen Sie die Messe Augsburg in nur ca. 15 Minuten.</p>
             <p style="margin-top: 15px;">Nutzen Sie unsere erweiterten Check-In Zeiten und den kostenlosen Parkplatz für Ihre Messebesuche.</p>
         </div>
+
+        <div class="blog-content" style="line-height: 1.8; font-size: 1.05rem; margin-top: 40px;">
+            <h2>Das Wichtigste auf einen Blick</h2>
+            <ul>
+                <li><strong>Adresse:</strong> Hotel Goldener Falke, Neuhäuserstraße 10, 86154 Augsburg (Oberhausen)</li>
+                <li><strong>Messe Augsburg:</strong> ca. 15 Minuten mit dem Auto über die B17</li>
+                <li><strong>Autobahn:</strong> A8, Ausfahrt Augsburg-West, weiter über die B17</li>
+                <li><strong>Parken:</strong> kostenloser Hotelparkplatz direkt am Haus (nach Verfügbarkeit)</li>
+                <li><strong>Check-in:</strong> regulär Montag bis Freitag 14:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
+                <li><strong>Arbeiten:</strong> kostenloses WLAN in allen Zimmern, Gästelounge mit Computer und Kaffeemaschine</li>
+                <li><strong>Frühstück:</strong> Frühstücksbuffet, jeden Morgen frisch zubereitet</li>
+                <li><strong>Zimmer:</strong> Einzelzimmer Eco, Einzelzimmer Standard, Doppelzimmer Standard – alle mit Dusche/WC und TV</li>
+                <li><strong>Gruppen:</strong> Gruppenpreise auf Anfrage</li>
+            </ul>
+
+            <h2>Warum ein Messehotel in Augsburg-Oberhausen?</h2>
+            <p>Während einer Messe sind Hotels in unmittelbarer Nähe des Messegeländes schnell ausgebucht – und oft teuer. Ein Hotel mit guter Verkehrsanbindung ist dann die entspanntere Wahl. Das Hotel Goldener Falke liegt in Augsburg-Oberhausen mit direktem Anschluss an die B17, die Augsburg von Norden nach Süden durchquert. So sind Sie in ca. 15 Minuten an der Messe Augsburg und abends ebenso schnell zurück.</p>
+            <p>Dazu kommt, was Aussteller und Fachbesucher wirklich brauchen: ein Parkplatz, der nichts kostet und direkt am Haus liegt, ein Zimmer mit WLAN für E-Mails und Nachbereitung und ein Frühstück, das Sie gut in einen langen Messetag starten lässt.</p>
+
+            <h2>Wie komme ich vom Hotel zur Messe Augsburg?</h2>
+            <p>Am schnellsten geht es mit dem Auto über die B17 – rund 15 Minuten, je nach Verkehr. Zu Messezeiten kann es rund um das Messegelände voller werden; planen Sie für den Morgen etwas Puffer ein. Informationen zu Veranstaltungen, Anfahrt und Parken am Messegelände finden Sie direkt bei der <a href="https://www.messeaugsburg.de" target="_blank" rel="noopener nofollow">Messe Augsburg</a>.</p>
+            <p>Wer lieber öffentlich fährt, startet an der Haltestelle „Oberhausen Bahnhof/Helmut-Haller-Platz" direkt um die Ecke. Die passende Verbindung zeigt die Fahrplanauskunft der <a href="https://www.sw-augsburg.de/" target="_blank" rel="noopener">Stadtwerke Augsburg</a>.</p>
+
+            <h2>Wie komme ich zum Hotel?</h2>
+            <p>Mit dem Auto nehmen Sie auf der A8 die Ausfahrt Augsburg-West und fahren auf die B17 Richtung Landsberg bis zur Ausfahrt Zentralklinikum. Von dort geht es links nach Kriegshaber, geradeaus über den Kobelweg bis zur Backsteinkirche, an der Ampel links, unter der Bahnunterführung hindurch und an der nächsten Ampel links in die Neuhäuserstraße – nach etwa 50 m rechts. Mit der Bahn fahren Sie bis Augsburg-Oberhausen oder steigen am Hauptbahnhof um. Alle Details finden Sie unter <a href="/lage-anfahrt.html">Lage &amp; Anfahrt</a> und im Beitrag <a href="/blog/anreise-augsburg-auto-bahn-flugzeug.html">Anreise nach Augsburg</a>.</p>
+
+            <h2>Kann ich nach einem langen Messetag noch spät einchecken?</h2>
+            <p>Ja. Aufbautage, Standpartys und Kundentermine enden selten pünktlich. Deshalb gibt es bei uns ein <strong>24h-Check-in-Terminal</strong>: Melden Sie Ihre späte Anreise kurz telefonisch oder per E-Mail an, wir schalten das Self-Service-Terminal am Eingang für Sie frei, und Sie erhalten dort mit Ihrem Reservierungsnamen Ihre Zimmerkarte – rund um die Uhr, auch am Wochenende.</p>
+
+            <h2>Welche Zimmer gibt es für Messegäste?</h2>
+            <ul>
+                <li><strong>Einzelzimmer Eco</strong> – Dusche/WC, TV, Erfrischungsgetränk und kostenloses WLAN; die günstige Wahl für Fachbesucher</li>
+                <li><strong>Einzelzimmer Standard</strong> – zusätzlich mit Safe und Kühlschrank</li>
+                <li><strong>Doppelzimmer Standard</strong> – mit Doppelbett, Safe und Kühlschrank</li>
+            </ul>
+            <p>Aktuelle Preise und Verfügbarkeit finden Sie unter <a href="/zimmer-preise.html">Zimmer &amp; Preise</a>. Bei Direktbuchung über unsere Website zahlen Sie keine Buchungsgebühren.</p>
+
+            <h2>Reisen Sie als Team an?</h2>
+            <p>Für Messeteams, Standpersonal und Gruppen nennen wir Ihnen gern Gruppenpreise – sprechen Sie uns einfach an. Bleibt Ihr Team länger in Augsburg, etwa für Aufbau, Montage oder Projektarbeit, lohnt sich auch ein Blick auf unsere Schwesterseiten: <a href="https://www.monteurzimmer.augsburg-apartments.de/" target="_blank" rel="noopener">Monteurzimmer Augsburg</a> für Handwerker und Monteure sowie <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a> für möblierte Apartments ab einer Woche.</p>
+
+            <h2>Checkliste für Ihre Messereise</h2>
+            <ul>
+                <li>Zimmer frühzeitig buchen – zu Messezeiten ist die Nachfrage in Augsburg hoch.</li>
+                <li>Späte Anreise kurz anmelden, damit das Check-in-Terminal freigeschaltet ist.</li>
+                <li>Für den Messemorgen etwas Puffer auf der B17 einplanen.</li>
+                <li>Nach Gruppenpreisen fragen, wenn Sie mit mehreren Personen anreisen.</li>
+            </ul>
+            <p>Noch Fragen? In unseren <a href="/haeufige-fragen.html">häufigen Fragen</a> finden Sie weitere Antworten – oder Sie rufen uns direkt an: <a href="tel:+49821411957">+49 821 41 19 57</a>.</p>
+        </div>
+${faqBlock(messeFaq)}
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="/buchen.html" class="btn" style="display: inline-block; padding: 15px 40px; background-color: var(--clr-gold); color: white; border-radius: 8px; cursor: pointer; text-decoration: none;">Zimmer für Ihre Messe buchen</a>
+        </div>
     </div>
 </section>`;
 
 createPage('hotel-messe-augsburg.html',
-    'Messehotel Augsburg | Hotel Goldener Falke',
-    'Das Hotel Goldener Falke ist der ideale Ort für Messegäste. 15 Min zur Messe Augsburg, kostenlos Parken.',
+    "Hotel nahe Messe Augsburg | ca. 15 Min. – Goldener Falke",
+    "Messehotel in Augsburg-Oberhausen: über die B17 ca. 15 Min. zur Messe Augsburg, kostenloser Parkplatz, 24h-Check-in-Terminal, WLAN und Frühstücksbuffet.",
     'https://www.goldener-falke.de/hotel-messe-augsburg.html',
-    messeHtml
+    messeHtml,
+    faqSchema(messeFaq)
 );
 
 // 4. Über Uns
@@ -144,8 +330,8 @@ const ueberHtml = `<section>
 </section>`;
 
 createPage('ueber-uns.html',
-    'Über uns | Hotel Goldener Falke Augsburg',
-    'Das Hotel Goldener Falke ist ein Familienhotel seit über 100 Jahren. Komfortable Zimmer zu fairen Preisen mit kostenlosem Parkplatz.',
+    "Über uns | Familienhotel in Augsburg seit 1923",
+    "Das Hotel Goldener Falke ist ein familiär geführtes Hotel in Augsburg-Oberhausen – seit 1923. Komfortable Zimmer, faire Preise, kostenloser Parkplatz.",
     'https://www.goldener-falke.de/ueber-uns.html',
     ueberHtml
 );
@@ -165,8 +351,8 @@ const lageHtml = `<section>
 </section>`;
 
 createPage('lage-anfahrt.html',
-    'Lage & Anfahrt | Hotel Goldener Falke Augsburg',
-    'Hotel Goldener Falke in Augsburg-Oberhausen. Kostenlos Parken, nähe Uniklinik, Messe und Innenstadt.',
+    "Lage & Anfahrt | Hotel Goldener Falke Augsburg-Oberhausen",
+    "Neuhäuserstraße 10, 86154 Augsburg-Oberhausen: Anfahrt über A8 und B17, Bahnhof Oberhausen um die Ecke, kostenloser Hotelparkplatz, Uniklinik ca. 10 Min.",
     'https://www.goldener-falke.de/lage-anfahrt.html',
     lageHtml
 );

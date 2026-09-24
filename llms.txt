@@ -51,6 +51,20 @@ Zentral gelegen mit direkter Anbindung an B17, A8 und ÖPNV.
 Direkt über die Website oder telefonisch. Bestpreisgarantie bei Direktbuchung.
 - Online: https://www.goldener-falke.de/buchen
 
+## Check-in
+
+- Regulärer Check-in: Mo–Fr 14:00–18:00 Uhr
+- 24h Check-In-Terminal: rund um die Uhr, nach kurzer Voranmeldung per Telefon oder E-Mail
+
+## Wichtige Seiten
+
+- Zimmer & Preise: https://www.goldener-falke.de/zimmer-preise.html
+- Hotel für Klinikbesucher (Uniklinik & Josefinum): https://www.goldener-falke.de/hotel-klinik-augsburg.html
+- Messehotel Augsburg: https://www.goldener-falke.de/hotel-messe-augsburg.html
+- Lage & Anfahrt: https://www.goldener-falke.de/lage-anfahrt.html
+- Häufige Fragen: https://www.goldener-falke.de/haeufige-fragen.html
+- Blog: https://www.goldener-falke.de/blog/
+
 ## Sprachversionen
 
 | Sprache | URL |
@@ -58,8 +72,21 @@ Direkt über die Website oder telefonisch. Bestpreisgarantie bei Direktbuchung.
 | Deutsch | https://www.goldener-falke.de/ |
 | English | https://www.goldener-falke.de/en/ |
 
+## Blog: Augsburg-Tipps
+
+- [Augsburger Bierkultur — Brauereien, Biergärten und Tradition](https://www.goldener-falke.de/blog/augsburger-bierkultur-brauereitour.html): Augsburg ist eine alte Bierstadt: Bier-Vorschriften schon im Stadtrecht von 1156, Brauereien wie Riegele und Thorbräu, Biergärten und der Plärrer. Ein Guide zur Augsburger Bierkultur.
+- [Übernachten in Augsburg-Oberhausen: Hotel, Pension oder Monteurzimmer?](https://www.goldener-falke.de/blog/uebernachten-augsburg-oberhausen-hotel-pension-monteurzimmer.html): Hotel, Pension, Monteurzimmer oder Apartment? Welche Unterkunft in Augsburg-Oberhausen zu Ihrer Reise passt – für Städtetrip, Klinikbesuch, Geschäftsreise oder Montage.
+- [Augsburg an einem Wochenende: Route für Hotelgäste](https://www.goldener-falke.de/blog/augsburg-wochenende-route.html): Zwei Tage Augsburg: Unsere Wochenend-Route führt vom Rathausplatz über Maximilianstraße und Fuggerei bis zum Dom, zu Museen, zur Puppenkiste und an den Lech.
+- [Anreise nach Augsburg: Mit Auto, Bahn und Flugzeug zum Hotel](https://www.goldener-falke.de/blog/anreise-augsburg-auto-bahn-flugzeug.html): So kommen Sie nach Augsburg: mit dem Auto über A8 und B17, mit der Bahn zum Hauptbahnhof oder nach Oberhausen, per Flugzeug über München oder Memmingen – inklusive Wegbeschreibung zum Hotel.
+- [Die Augsburger Puppenkiste — Ein Familienausflug zwischen Urmel und Jim Knopf](https://www.goldener-falke.de/blog/augsburger-puppenkiste-familienausflug.html): Besuch der weltberühmten Augsburger Puppenkiste: Geschichte, Vorstellungen, Tickets und die besten Tipps für einen Familienausflug in die Fuggerstadt.
+- [Tagesausflug ins Lechtal: Wandern und Natur ab Augsburg](https://www.goldener-falke.de/blog/tagesausflug-lechtal-wandern-augsburg.html): Entdecken Sie das Lechtal ab Augsburg: Wanderrouten, Naturerlebnisse und die besten Ausflugsziele für einen perfekten Tag in der bayerischen Natur.
+- [Die Fuggerei in Augsburg — Geschichte, Besuch und Anfahrt](https://www.goldener-falke.de/blog/fuggerei-augsburg-sehenswuerdigkeit.html): Die Fuggerei ist die älteste bestehende Sozialsiedlung der Welt: 1521 von Jakob Fugger gestiftet, Jahresmiete 0,88 Euro plus drei Gebete. Fakten, Museum, Besuchstipps und Anfahrt ab Augsburg-Oberhausen.
+- [Die Geschichte des Goldenen Falken — Über 100 Jahre Gastlichkeit](https://www.goldener-falke.de/blog/geschichte-goldener-falke.html): Seit 1923 beherbergt das Hotel Goldener Falke Gäste aus aller Welt. Erfahren Sie mehr über unsere bewegte Geschichte und die Werte, die uns bis heute prägen.
+- [Augsburger Küche: Die besten traditionellen Gerichte](https://www.goldener-falke.de/blog/augsburger-kueche-traditionelle-gerichte.html): Was isst man in Augsburg? Von Kässpätzle und Maultaschen bis zum Zwetschgendatschi – die typischen Augsburger Spezialitäten der schwäbischen Küche im Überblick.
+
 ## Partnerseiten (Gnann Verwaltung GmbH)
 
 - Apartment Augsburg (Möblierte Apartments): https://www.apartment-augsburg.de
 - Wohnbaron (Alle Unterkünfte): https://www.wohnbaron.de
 - Relocation Augsburg (Relocation Service): https://www.relocation-augsburg.de
+- Monteurzimmer Augsburg (Monteurzimmer & Monteurwohnungen): https://www.monteurzimmer.augsburg-apartments.de

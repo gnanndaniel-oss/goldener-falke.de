@@ -40,8 +40,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" /></noscript>
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -67,7 +71,7 @@
         "image": "https://www.goldener-falke.de/images/Hotel_Augsburg_Goldener_Falke_Titelbild.jpg",
         "priceRange": "€€",
         "checkinTime": "15:00",
-        "checkoutTime": "11:00",
+        "checkoutTime": "10:00",
         "starRating": {
           "@type": "Rating",
           "ratingValue": "3"
@@ -155,6 +159,12 @@
               "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
             }
           }
+        ],
+        "sameAs": [
+          "https://www.wohnbaron.de/",
+          "https://www.apartment-augsburg.de/",
+          "https://www.monteurzimmer.augsburg-apartments.de/",
+          "https://www.relocation-augsburg.de/"
         ],
         "parentOrganization": {
           "@type": "Organization",
@@ -357,8 +367,6 @@
   </div>
 
   
-
-    
 <section style="padding: 60px 0;">
     <div class="container">
         <nav aria-label="Brotkrumen" style="font-size: 0.9rem; color: var(--clr-text-light); margin-bottom: 20px;">
@@ -609,7 +617,7 @@
       <button class="booking-modal-close" onclick="closeBookingModal()" aria-label="Schließen">
         ✕
       </button>
-      <iframe src="https://ibev5.hotels-online-buchen.de/ibe/falkeaugsburg"
+      <iframe data-src="https://ibev5.hotels-online-buchen.de/ibe/falkeaugsburg"
         title="Zimmerbuchung Goldener Falke"></iframe>
     </div>
   </div>

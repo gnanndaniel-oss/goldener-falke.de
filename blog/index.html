@@ -8,7 +8,8 @@
 
   <!-- Generic Meta -->
   <meta name="description" content="Blog des Hotel Goldener Falke: Augsburger Sehenswürdigkeiten, Spezialitäten, Anreise- und Übernachtungstipps – seit 1923 in Augsburg-Oberhausen." />
-  <meta name="keywords" content="Goldener Falke, Hotelgeschichte, Augsburg, Tradition, Familie" />
+  <meta name="keywords"
+    content="Hotel Augsburg, Hotel Goldener Falke, Übernachtung Augsburg, Hotel Augsburg Oberhausen, Hotel Uniklinik Augsburg, Hotel Josefinum Augsburg, 24h Check-In, kostenloses Parken Augsburg" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Hotel Goldener Falke" />
 
@@ -21,7 +22,8 @@
   <!-- Open Graph Tags -->
   <meta property="og:title" content="Blog | Hotel Goldener Falke Augsburg – Reisetipps, Gastro & Geschichte" />
   <meta property="og:description" content="Blog des Hotel Goldener Falke: Augsburger Sehenswürdigkeiten, Spezialitäten, Anreise- und Übernachtungstipps – seit 1923 in Augsburg-Oberhausen." />
-  <meta property="og:image" content="https://www.goldener-falke.de/images/Hotel_Augsburg_Goldener_Falke_Titelbild.jpg" />
+  <meta property="og:image"
+    content="https://www.goldener-falke.de/images/Hotel_Augsburg_Goldener_Falke_Titelbild.jpg" />
   <meta property="og:url" content="https://www.goldener-falke.de/blog/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="de_DE" />
@@ -31,7 +33,8 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Blog | Hotel Goldener Falke Augsburg – Reisetipps, Gastro & Geschichte" />
   <meta name="twitter:description" content="Blog des Hotel Goldener Falke: Augsburger Sehenswürdigkeiten, Spezialitäten, Anreise- und Übernachtungstipps – seit 1923 in Augsburg-Oberhausen." />
-  <meta name="twitter:image" content="https://www.goldener-falke.de/images/Hotel_Augsburg_Goldener_Falke_Titelbild.jpg" />
+  <meta name="twitter:image"
+    content="https://www.goldener-falke.de/images/Hotel_Augsburg_Goldener_Falke_Titelbild.jpg" />
 
   <!-- Canonical Tag -->
   <link rel="canonical" href="https://www.goldener-falke.de/blog/" />
@@ -40,8 +43,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" /></noscript>
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -67,7 +74,7 @@
         "image": "https://www.goldener-falke.de/images/Hotel_Augsburg_Goldener_Falke_Titelbild.jpg",
         "priceRange": "€€",
         "checkinTime": "15:00",
-        "checkoutTime": "11:00",
+        "checkoutTime": "10:00",
         "starRating": {
           "@type": "Rating",
           "ratingValue": "3"
@@ -155,6 +162,12 @@
               "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
             }
           }
+        ],
+        "sameAs": [
+          "https://www.wohnbaron.de/",
+          "https://www.apartment-augsburg.de/",
+          "https://www.monteurzimmer.augsburg-apartments.de/",
+          "https://www.relocation-augsburg.de/"
         ],
         "parentOrganization": {
           "@type": "Organization",
@@ -246,8 +259,6 @@
   </div>
 
   
-
-    
 <section style="padding: 60px 0;">
     <div class="container">
         <header style="text-align: center; margin-bottom: 50px;">
@@ -465,7 +476,7 @@
       <button class="booking-modal-close" onclick="closeBookingModal()" aria-label="Schließen">
         ✕
       </button>
-      <iframe src="https://ibev5.hotels-online-buchen.de/ibe/falkeaugsburg"
+      <iframe data-src="https://ibev5.hotels-online-buchen.de/ibe/falkeaugsburg"
         title="Zimmerbuchung Goldener Falke"></iframe>
     </div>
   </div>
