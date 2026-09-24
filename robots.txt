@@ -1,0 +1,36 @@
+User-agent: *
+Allow: /
+
+# AI Bots — explizit erlaubt
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+Sitemap: https://www.goldener-falke.de/sitemap.xml
+
+# LLM-optimierte Informationen:
+# https://www.goldener-falke.de/llms.txt
+# https://www.goldener-falke.de/llms-full.txt
