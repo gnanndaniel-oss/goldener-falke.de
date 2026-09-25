@@ -238,7 +238,8 @@ const klinikHtml = `<section>
                 <li><strong>Sonderkonditionen:</strong> ermäßigte Konditionen für Angehörige und Besucher von Patienten – bitte direkt anfragen</li>
                 <li><strong>Parken:</strong> kostenloser Hotelparkplatz direkt am Haus (nach Verfügbarkeit)</li>
                 <li><strong>Check-in:</strong> regulär Montag bis Freitag 15:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
-                <li><strong>Zimmer:</strong> Einzel- und Doppelzimmer mit Dusche/WC, TV und kostenlosem WLAN</li>
+                <li><strong>Hotel:</strong> 3-Sterne-Hotel mit 20 Zimmern</li>
+<li><strong>Zimmer:</strong> Einzel- und Doppelzimmer mit Dusche/WC, TV und kostenlosem WLAN</li>
                 <li><strong>Frühstück:</strong> Frühstücksbuffet, jeden Morgen frisch zubereitet</li>
                 <li><strong>Längere Aufenthalte:</strong> ab einer Woche auch möblierte Apartments über <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a></li>
             </ul>
@@ -343,7 +344,8 @@ const messeHtml = `<section>
                 <li><strong>Check-in:</strong> regulär Montag bis Freitag 15:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
                 <li><strong>Arbeiten:</strong> kostenloses WLAN in allen Zimmern, Gästelounge mit Computer und Kaffeemaschine</li>
                 <li><strong>Frühstück:</strong> Frühstücksbuffet, jeden Morgen frisch zubereitet</li>
-                <li><strong>Zimmer:</strong> Einzelzimmer Eco, Einzelzimmer Standard, Doppelzimmer Standard – alle mit Dusche/WC und TV</li>
+                <li><strong>Hotel:</strong> 3-Sterne-Hotel mit 20 Zimmern</li>
+<li><strong>Zimmer:</strong> Einzelzimmer Eco, Einzelzimmer Standard, Doppelzimmer Standard – alle mit Dusche/WC und TV</li>
                 <li><strong>Gruppen:</strong> Gruppenpreise auf Anfrage</li>
             </ul>
 
