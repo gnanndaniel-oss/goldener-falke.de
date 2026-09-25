@@ -237,7 +237,7 @@ const klinikHtml = `<section>
                 <li><strong>Josefinum:</strong> ca. 4 Minuten mit dem Auto</li>
                 <li><strong>Sonderkonditionen:</strong> ermäßigte Konditionen für Angehörige und Besucher von Patienten – bitte direkt anfragen</li>
                 <li><strong>Parken:</strong> kostenloser Hotelparkplatz direkt am Haus (nach Verfügbarkeit)</li>
-                <li><strong>Check-in:</strong> regulär Montag bis Freitag 14:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
+                <li><strong>Check-in:</strong> regulär Montag bis Freitag 15:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
                 <li><strong>Zimmer:</strong> Einzel- und Doppelzimmer mit Dusche/WC, TV und kostenlosem WLAN</li>
                 <li><strong>Frühstück:</strong> Frühstücksbuffet, jeden Morgen frisch zubereitet</li>
                 <li><strong>Längere Aufenthalte:</strong> ab einer Woche auch möblierte Apartments über <a href="https://www.apartment-augsburg.de/" target="_blank" rel="noopener">apartment-augsburg.de</a></li>
@@ -251,7 +251,7 @@ const klinikHtml = `<section>
             <p>Wir bieten Angehörigen und Besuchern von Patienten spezielle, ermäßigte Konditionen – insbesondere für längere Aufenthalte. Da jede Situation anders ist, erstellen wir Ihnen gern ein individuelles Angebot. Rufen Sie uns an unter <a href="tel:+49821411957">+49 821 41 19 57</a>, schreiben Sie an <a href="mailto:hotel@goldener-falke.de">hotel@goldener-falke.de</a> oder nutzen Sie das <a href="/#kontakt">Kontaktformular</a>. Nennen Sie uns am besten gleich den geplanten Zeitraum und die Anzahl der Personen.</p>
 
             <h2>Was ist, wenn ich spontan oder spät anreisen muss?</h2>
-            <p>Klinikbesuche lassen sich selten lange im Voraus planen. Deshalb gibt es bei uns ein <strong>24h-Check-in-Terminal</strong>. Unsere regulären Check-in-Zeiten sind Montag bis Freitag von 14:00 bis 18:00 Uhr. Kommen Sie später, früh morgens oder am Wochenende an, melden Sie Ihre Anreise kurz telefonisch oder per E-Mail an. Wir schalten das Self-Service-Terminal am Eingang für Sie frei, und Sie erhalten dort mit Ihrem Reservierungsnamen Ihre Zimmerkarte – rund um die Uhr.</p>
+            <p>Klinikbesuche lassen sich selten lange im Voraus planen. Deshalb gibt es bei uns ein <strong>24h-Check-in-Terminal</strong>. Unsere regulären Check-in-Zeiten sind Montag bis Freitag von 15:00 bis 18:00 Uhr. Kommen Sie später, früh morgens oder am Wochenende an, melden Sie Ihre Anreise kurz telefonisch oder per E-Mail an. Wir schalten das Self-Service-Terminal am Eingang für Sie frei, und Sie erhalten dort mit Ihrem Reservierungsnamen Ihre Zimmerkarte – rund um die Uhr.</p>
 
             <h2>Wie komme ich vom Hotel zur Uniklinik und zum Josefinum?</h2>
             <p>Mit dem Auto erreichen Sie das Universitätsklinikum Augsburg in ca. 10 Minuten und das Josefinum in ca. 4 Minuten. Wer ohne Auto unterwegs ist, nutzt Straßenbahn und Bus: Die Haltestelle „Oberhausen Bahnhof/Helmut-Haller-Platz" liegt direkt um die Ecke. Die aktuelle Verbindung zu Ihrer Klinik finden Sie in der Fahrplanauskunft der <a href="https://www.sw-augsburg.de/" target="_blank" rel="noopener">Stadtwerke Augsburg</a>. Wie Sie zu uns ins Hotel kommen, erklärt unsere Seite <a href="/lage-anfahrt.html">Lage &amp; Anfahrt</a>.</p>
@@ -305,7 +305,7 @@ const messeFaq = [
     },
     {
         "q": "Kann ich nach einem Messetag spät einchecken?",
-        "a": "Ja. Nach kurzer Voranmeldung nutzen Sie unser 24h-Check-in-Terminal. Die regulären Check-in-Zeiten sind Montag bis Freitag 14:00 bis 18:00 Uhr."
+        "a": "Ja. Nach kurzer Voranmeldung nutzen Sie unser 24h-Check-in-Terminal. Die regulären Check-in-Zeiten sind Montag bis Freitag 15:00 bis 18:00 Uhr."
     },
     {
         "q": "Gibt es WLAN zum Arbeiten?",
@@ -340,7 +340,7 @@ const messeHtml = `<section>
                 <li><strong>Messe Augsburg:</strong> ca. 15 Minuten mit dem Auto über die B17</li>
                 <li><strong>Autobahn:</strong> A8, Ausfahrt Augsburg-West, weiter über die B17</li>
                 <li><strong>Parken:</strong> kostenloser Hotelparkplatz direkt am Haus (nach Verfügbarkeit)</li>
-                <li><strong>Check-in:</strong> regulär Montag bis Freitag 14:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
+                <li><strong>Check-in:</strong> regulär Montag bis Freitag 15:00–18:00 Uhr, außerhalb dieser Zeiten per 24h-Check-in-Terminal nach kurzer Voranmeldung</li>
                 <li><strong>Arbeiten:</strong> kostenloses WLAN in allen Zimmern, Gästelounge mit Computer und Kaffeemaschine</li>
                 <li><strong>Frühstück:</strong> Frühstücksbuffet, jeden Morgen frisch zubereitet</li>
                 <li><strong>Zimmer:</strong> Einzelzimmer Eco, Einzelzimmer Standard, Doppelzimmer Standard – alle mit Dusche/WC und TV</li>
@@ -770,7 +770,7 @@ const faqHtml = `<section>
                         "name": "Wann kann ich einchecken / auschecken?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Unsere regulären Check-In Zeiten sind Montag bis Freitag von 14:00 bis 18:00 Uhr. Darüber hinaus können Sie unser 24h Check-In-Terminal (elektronisch) durchgehend von Montag bis Sonntag von 0:00 bis 24:00 Uhr nutzen. Der Check-out erfolgt in der Regel bis 11:00 Uhr."
+                            "text": "Unsere regulären Check-In Zeiten sind Montag bis Freitag von 15:00 bis 18:00 Uhr. Darüber hinaus können Sie unser 24h Check-In-Terminal (elektronisch) durchgehend von Montag bis Sonntag von 0:00 bis 24:00 Uhr nutzen. Der Check-out erfolgt in der Regel bis 10:00 Uhr."
                         }
                     },
                     {
@@ -825,7 +825,7 @@ const faqHtml = `<section>
 
                 <details style="margin-bottom: 20px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid var(--clr-gray); cursor: pointer;">
                     <summary style="font-weight: 700; font-size: 1.1rem; color: var(--clr-brand); outline: none;">Wann kann ich einchecken / auschecken?</summary>
-                    <p style="margin-top: 15px; line-height: 1.6;">Unsere regulären Check-In Zeiten sind Montag bis Freitag von 14:00 bis 18:00 Uhr. Darüber hinaus können Sie unser <strong>24h Check-In-Terminal (elektronisch)</strong> durchgehend von Montag bis Sonntag von 0:00 bis 24:00 Uhr nutzen. Der Check-out erfolgt in der Regel bis 11:00 Uhr.</p>
+                    <p style="margin-top: 15px; line-height: 1.6;">Unsere regulären Check-In Zeiten sind Montag bis Freitag von 15:00 bis 18:00 Uhr. Darüber hinaus können Sie unser <strong>24h Check-In-Terminal (elektronisch)</strong> durchgehend von Montag bis Sonntag von 0:00 bis 24:00 Uhr nutzen. Der Check-out erfolgt in der Regel bis 10:00 Uhr.</p>
                 </details>
 
                 <details style="margin-bottom: 20px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid var(--clr-gray); cursor: pointer;">
